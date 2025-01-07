@@ -36,5 +36,18 @@
   "label": "Label",
   "shift_type": "Shift type",
   "time_range": "Time range",
-  "color": "Color"
+  "color": "Color",
+  "holidays": "Holidays",
+  "counts_on_shifts": "Counts on shifts",
+  "total_hours": "Total hours",
+  "employees_count": "Employees count",
+  "actions": "Actions",
+  "edit": "Edit",
+  "team_name": "Team {name}",
+  "no_groups": "No groups",
+  "group": "Group",
+  "groups": "Groups",
+  "date": "Date",
+  "none": "None",
+  "save": "Save"
 }

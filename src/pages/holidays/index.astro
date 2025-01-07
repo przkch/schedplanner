@@ -19,11 +19,11 @@ const holidays = await db.select().from(holiday).orderBy(holiday.date);
 <Subpage title="Holidays">
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-4">
-      <h3 class="font-bold text-3xl">Holidays</h3>
+      <h3 class="font-bold text-3xl">{m.holidays()}</h3>
       <form method="POST" action="/api/holidays" class="flex flex-col gap-8">
         <div class="grid grid-cols-2 gap-6 items-center">
           <HTMLInput name="name" label={m.name()} type="text" />
-          <HTMLInput name="date" label="Date" type="date" required />
+          <HTMLInput name="date" label={m.date()} type="date" required />
         </div>
         <HTMLSubmit label={m.add()} class="col-span-2" />
       </form>
@@ -36,8 +36,8 @@ const holidays = await db.select().from(holiday).orderBy(holiday.date);
             <thead class="text-xs bg-gray-200">
               <tr>
                 <th class="px-6 py-3">{m.name()}</th>
-                <th class="px-6 py-3">Date</th>
-                <th class="px-6 py-3">Actions</th>
+                <th class="px-6 py-3">{m.date()}</th>
+                <th class="px-6 py-3">{m.actions()}</th>
                 <th />
               </tr>
             </thead>

@@ -3,6 +3,8 @@
   import { shift } from "@lib/database/schema";
   import { fmtShift } from "@lib/utils";
 
+  import * as m from "@paraglide/messages";
+
   interface Props {
     year: number;
     month: number;
@@ -20,7 +22,7 @@
       <form method="POST" action="/api/schedule">
         <div class="flex flex-col gap-4">
           <select name="shift_id" class="bg-slate-200 px-4 py-2" required>
-            <option value="-1">None</option>
+            <option value="-1">{m.none()}</option>
             {#each props.shifts as shift}
               <option value={shift.id}>
                 {#if shift.label}
@@ -36,7 +38,7 @@
           <input name="month" value={props.month} hidden />
           <input name="day" value={props.day} hidden />
 
-          <HTMLSubmit label="Add" class="col-span-2" />
+          <HTMLSubmit label={m.save()} class="col-span-2" />
         </div>
       </form>
     </div>
