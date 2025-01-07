@@ -52,5 +52,9 @@ const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
     <MonthPicker />
     <MonthButton icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" month={Number(month) + 1} />
   </div>
-  <Table />
+  <Table server:defer>
+    <div slot="fallback" class="p-4 text-center">
+      <span>Ładowanie...</span>
+    </div>
+  </Table>
 </Layout>
