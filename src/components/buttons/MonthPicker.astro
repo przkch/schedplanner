@@ -1,0 +1,21 @@
+---
+import HTMLInput from "@components/form/HTMLInput.svelte";
+
+const now = new Date();
+const year = Astro.cookies.get("year")?.number() || now.getFullYear();
+const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
+---
+
+<HTMLInput name="month" type="month" value=`${year}-${String(month).padStart(2, "0")}` class="flex flex-row items-center" />
+
+<script>
+  const month_input_element = document.querySelector("input[name='month']") as HTMLInputElement;
+
+  month_input_element.addEventListener("change", (e) => {
+    const target = e.target as HTMLInputElement;
+    const [year, month] = target.value.split("-");
+    document.cookie = `year=${year}; expires=Session, path=/`;
+    document.cookie = `month=${month}; expires=Session, path=/`;
+    location.reload();
+  });
+</script>
