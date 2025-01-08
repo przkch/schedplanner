@@ -13,7 +13,16 @@ export const employeeRelations = relations(employee, ({ one, many }) => ({
   schedules: many(schedule),
 }));
 
+export const groupRelations = relations(group, ({ one, many }) => ({
+  team: one(team, {
+    fields: [group.teamId],
+    references: [team.id],
+  }),
+  employees: many(employee),
+}));
+
 export const teamRelations = relations(team, ({ many }) => ({
+  groups: many(group),
   employees: many(employee),
 }));
 

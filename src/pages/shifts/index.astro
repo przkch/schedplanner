@@ -2,7 +2,7 @@
 import Subpage from "@layouts/Subpage.astro";
 
 import { db } from "@lib/database";
-import { shift, shiftTypesEnum } from "@lib/database/schema";
+import { shift, shiftTypes } from "@lib/database/schema";
 
 import Remove from "@components/buttons/Remove.svelte";
 import ColorPicker from "@components/form/ColorPicker.svelte";
@@ -26,7 +26,7 @@ const shifts = await db.select().from(shift).orderBy(shift.id);
         <HTMLInput name="label" label={m.label()} type="text" />
         <HTMLSelect name="shift_type" label={m.shift_type()}>
           {
-            shiftTypesEnum.enumValues.map((shiftType) => {
+            shiftTypes.enumValues.map((shiftType) => {
               return <option value={shiftType}>{shiftType}</option>;
             })
           }
@@ -51,7 +51,7 @@ const shifts = await db.select().from(shift).orderBy(shift.id);
                     <form method="POST" action="/api/shifts/update" class="flex flex-col gap-2">
                       <HTMLInput name="label" label={m.label()} type="text" value={shift.label!} onchange="this.form.submit()" />
                       <HTMLSelect name="shift_type" label={m.shift_type()}>
-                        {shiftTypesEnum.enumValues.map((shiftType) => {
+                        {shiftTypes.enumValues.map((shiftType) => {
                           return (
                             <option value={shiftType} selected={shift.shiftType == shiftType}>
                               {shiftType}
