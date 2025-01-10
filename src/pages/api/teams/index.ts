@@ -4,7 +4,7 @@ import { team } from "@lib/database/schema";
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async () => {
-  const teams = await db.select().from(team);
+  const teams = await db.select().from(team).orderBy(team.name);
 
   return new Response(JSON.stringify(teams), { headers: { "Content-Type": "application/json" } });
 };
