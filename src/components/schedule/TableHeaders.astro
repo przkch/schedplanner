@@ -2,22 +2,19 @@
 import { holiday } from "@lib/database/schema";
 
 import * as m from "@paraglide/messages";
-import { setLanguageTag } from "@paraglide/runtime";
 
 interface Props {
   holidays: (typeof holiday.$inferSelect)[];
+  year: number;
+  month: number;
   footer?: boolean;
 }
 
-const { holidays, footer = false } = Astro.props;
-
-setLanguageTag((Astro.preferredLocale || "en") as any);
+const { holidays, year, month, footer = false } = Astro.props;
 
 const dayFormat = new Intl.DateTimeFormat(Astro.preferredLocale || "en", { weekday: "short" });
 
 const now = new Date();
-const year = Astro.cookies.get("year")?.number() || now.getFullYear();
-const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
 
 const days_count = new Date(year, month, 0).getDate();
 ---
