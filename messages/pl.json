@@ -37,9 +37,6 @@
   "shift_type": "Rodzaj zmiany",
   "time_range": "Przedział czasowy",
   "color": "Kolor",
-  "country": "Kraj",
-  "zip_code": "Kod pocztowy",
-  "street": "Ulica",
   "holidays": "Dni wolne",
   "counts_on_shifts": "Ilość osób na zmianie",
   "total_hours": "Łącznie godzin",
@@ -52,5 +49,9 @@
   "groups": "Grupy",
   "date": "Data",
   "none": "Brak",
-  "save": "Zapisz"
+  "save": "Zapisz",
+  "country": "Kraj",
+  "zip_code": "Kod pocztowy",
+  "street": "Ulica",
+  "cancel": "Anuluj"
 }

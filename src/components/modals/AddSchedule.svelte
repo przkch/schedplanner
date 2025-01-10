@@ -38,7 +38,20 @@
           <input name="month" value={props.month} hidden />
           <input name="day" value={props.day} hidden />
 
-          <HTMLSubmit label={m.save()} class="col-span-2" />
+          <div class="flex flex-row justify-between gap-4">
+            <button
+              type="button"
+              class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md enabled:hover:bg-gray-600 focus:outline-none enabled:focus:bg-gray-600 disabled:opacity-75"
+              onclick={() => {
+                const dialog = document.querySelector("dialog#modify_schedule") as HTMLDialogElement;
+
+                dialog.close();
+              }}
+            >
+              {m.cancel()}
+            </button>
+            <HTMLSubmit label={m.save()} class="col-span-2" />
+          </div>
         </div>
       </form>
     </div>
