@@ -5,11 +5,11 @@
   import { onMount } from "svelte";
 
   let teams: (typeof team.$inferSelect)[] | null = $state(null);
-  let currentTeam: string | null = $state(null);
+  let currentTeamId: number | null = $state(null);
 
   onMount(async () => {
     teams = await fetch("/api/teams").then((res) => res.json());
-    currentTeam = await fetch("/api/teams/current").then((res) => res.text());
+    currentTeamId = Number(await fetch("/api/teams/current").then((res) => res.text()));
   });
 
   const onchange = async () => {
@@ -31,7 +31,7 @@
   <form class="flex flex-col gap-2 max-w-32 sm:max-w-none">
     <select name="chosen_team" {onchange} required class="bg-inherit">
       {#each teams as team (team.id)}
-        <option value={team.name} selected={team.name === currentTeam}>
+        <option value={team.id} selected={team.id === currentTeamId}>
           {team.name}
         </option>
       {/each}

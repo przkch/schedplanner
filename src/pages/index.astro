@@ -15,35 +15,27 @@ import { eq } from "drizzle-orm";
 
 setLanguageTag((Astro.preferredLocale || "en") as any);
 
-if ((await db.select().from(team)).length === 0) {
-  console.log("No teams found in the database! Redirecting to /teams so the user can add one.");
-  return Astro.redirect("/teams");
-}
+let currentTeamId: number | undefined;
 
-let currentTeam = "";
-let currentTeamId = -1;
-
-if (Astro.cookies.has("current_team")) {
-  currentTeam = Astro.cookies.get("current_team")?.value || "";
-  if (currentTeam !== "" && (await db.select().from(team).where(eq(team.name, currentTeam))).length == 0) {
-    console.warn(`Location '${currentTeam}' not found in the database! Clearing the cookie.`);
-    Astro.cookies.delete("current_team");
-    currentTeam = "";
+if (Astro.cookies.has("current_team_id")) {
+  currentTeamId = Astro.cookies.get("current_team_id")?.number();
+  if (currentTeamId && (await db.select().from(team).where(eq(team.id, currentTeamId))).length == 0) {
+    console.warn(`Team id '${currentTeamId}' not found in the database! Clearing the cookie.`);
+    Astro.cookies.delete("current_team_id");
+    currentTeamId = undefined;
   }
 }
 
-if (currentTeam === "") {
-  const default_team = (await db.select({ name: team.name }).from(team).where(eq(team.defaultTeam, true)))[0]["name"];
-  currentTeam = default_team;
-  Astro.cookies.set("current_team", currentTeam);
+if (!currentTeamId) {
+  const defaultTeam = (await db.select({ id: team.id }).from(team).where(eq(team.defaultTeam, true)))[0];
+  currentTeamId = defaultTeam.id;
+  Astro.cookies.set("current_team_id", currentTeamId.toString());
 }
 
-if (currentTeam === "") {
+if (!currentTeamId) {
   console.log("Current team is for some reason not set, redirecting to /teams");
   return Astro.redirect("/teams");
 }
-
-currentTeamId = (await db.select({ id: team.id }).from(team).where(eq(team.name, currentTeam)))[0].id;
 
 const now = new Date();
 const year = Astro.cookies.get("year")?.number() || now.getFullYear();
