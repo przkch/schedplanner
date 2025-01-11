@@ -6,7 +6,7 @@
     disabled?: boolean;
     label?: string;
     type?: "button" | "submit" | undefined;
-    onclick: MouseEventHandler<HTMLButtonElement>;
+    onclick?: MouseEventHandler<HTMLButtonElement>;
   }
 
   const props: Props = $props();
