@@ -3,47 +3,23 @@ import AddSchedule from "@components/modals/AddSchedule.svelte";
 import TableHeaders from "@components/schedule/TableHeaders.astro";
 
 import { db } from "@lib/database";
-import { employee, team, schedule, shift, group, holiday } from "@lib/database/schema";
+import { employee, schedule, shift, group, holiday } from "@lib/database/schema";
 import { fmtShift } from "@lib/utils";
 
 import { and, eq, inArray, sql } from "drizzle-orm";
 
-if ((await db.select().from(team)).length === 0) {
-  console.log("No teams found in the database! Redirecting to /teams so the user can add one.");
-  return Astro.redirect("/teams");
+interface Props {
+  teamId: number;
+  year: number;
+  month: number;
 }
 
-let currentTeam = "";
-let currentTeamId = -1;
-
-if (Astro.cookies.has("current_team")) {
-  currentTeam = Astro.cookies.get("current_team")?.value || "";
-  if (currentTeam !== "" && (await db.select().from(team).where(eq(team.name, currentTeam))).length == 0) {
-    console.warn(`Location '${currentTeam}' not found in the database! Clearing the cookie.`);
-    Astro.cookies.delete("current_team");
-    currentTeam = "";
-  }
-}
-
-if (currentTeam === "") {
-  const default_team = (await db.select({ name: team.name }).from(team).where(eq(team.defaultTeam, true)))[0]["name"];
-  currentTeam = default_team;
-  Astro.cookies.set("current_team", currentTeam);
-}
-
-if (currentTeam === "") {
-  console.log("Current team is for some reason not set, redirecting to /teams");
-  return Astro.redirect("/teams");
-}
-
-currentTeamId = (await db.select({ id: team.id }).from(team).where(eq(team.name, currentTeam)))[0]["id"];
+const { teamId, year, month } = Astro.props;
 
 const now = new Date();
-const year = Astro.cookies.get("year")?.number() || now.getFullYear();
-const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
 
-const employees = await db.select().from(employee).where(eq(employee.teamId, currentTeamId)).orderBy(employee.firstName, employee.lastName);
-const groups = await db.select().from(group).where(eq(group.teamId, currentTeamId));
+const employees = await db.select().from(employee).where(eq(employee.teamId, teamId)).orderBy(employee.firstName, employee.lastName);
+const groups = await db.select().from(group).where(eq(group.teamId, teamId));
 
 const employees_ids = employees.flatMap((e) => {
   return e.id;
@@ -84,12 +60,13 @@ for (const s of employees_schedule) {
     continue;
   }
 
-  full_schedule[s.employeeId][s.day] = {};
-  full_schedule[s.employeeId][s.day]["label"] = s.label;
-  full_schedule[s.employeeId][s.day]["start"] = fmtShift(s.start);
-  full_schedule[s.employeeId][s.day]["end"] = fmtShift(s.end);
-  full_schedule[s.employeeId][s.day]["color"] = s.color;
-  full_schedule[s.employeeId][s.day]["shiftType"] = s.shiftType;
+  full_schedule[s.employeeId][s.day] = {
+    label: s.label,
+    start: fmtShift(s.start),
+    end: fmtShift(s.end),
+    color: s.color,
+    shiftType: s.shiftType,
+  };
 
   const shift_hours =
     Math.abs(Date.parse(`${s.year}-${s.month}-${s.day} ${s.end}`) - Date.parse(`${s.year}-${s.month}-${s.day} ${s.start}`)) / (60 * 60 * 1000);

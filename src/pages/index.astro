@@ -21,6 +21,7 @@ if ((await db.select().from(team)).length === 0) {
 }
 
 let currentTeam = "";
+let currentTeamId = -1;
 
 if (Astro.cookies.has("current_team")) {
   currentTeam = Astro.cookies.get("current_team")?.value || "";
@@ -42,7 +43,10 @@ if (currentTeam === "") {
   return Astro.redirect("/teams");
 }
 
+currentTeamId = (await db.select({ id: team.id }).from(team).where(eq(team.name, currentTeam)))[0].id;
+
 const now = new Date();
+const year = Astro.cookies.get("year")?.number() || now.getFullYear();
 const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
 ---
 
@@ -52,5 +56,5 @@ const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
     <MonthPicker />
     <MonthButton icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" month={Number(month) + 1} />
   </div>
-  <Table />
+  <Table teamId={currentTeamId} year={year} month={month} />
 </Layout>
