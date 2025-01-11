@@ -102,7 +102,7 @@ const holidays = await db
   .where(sql.raw(`date::text LIKE '${year.toString()}-%'`));
 ---
 
-<div class="overflow-auto h-[calc(100vh-7.4rem)]">
+<div class="overflow-auto h-[calc(100vh-7.5rem)]">
   {
     employees.length && groups.length ? (
       <table class="table-auto border-collapse text-sm">
