@@ -23,7 +23,7 @@
   };
 </script>
 
-{#if !teams}
+{#if !teams || !currentTeamId}
   <p>Loading...</p>
 {:else if teams.length === 0}
   <span class="font-bold">{m.no_teams()}</span>
