@@ -1,82 +1,16 @@
 ---
 import Subpage from "@layouts/Subpage.astro";
-
-import { db } from "@lib/database";
-import { holiday } from "@lib/database/schema";
-
-import Remove from "@components/buttons/Remove.svelte";
-import HTMLInput from "@components/form/HTMLInput.svelte";
-import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
+import Table from "@components/holidays/Table.svelte";
 
 import * as m from "@paraglide/messages";
-import { Icon } from "astro-icon/components";
-
-const holidays = await db.select().from(holiday).orderBy(holiday.date);
 ---
 
 <Subpage title="Holidays">
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-4">
       <h3 class="font-bold text-3xl">{m.holidays()}</h3>
-      <form method="POST" action="/api/holidays" class="flex flex-col sm:flex-row gap-2 items-center">
-        <HTMLInput name="name" label={m.name()} type="text" class="w-full" />
-        <HTMLInput name="date" label={m.date()} type="date" required class="w-full sm:w-fit" />
-        <HTMLSubmit label={m.add()} class="self-end" />
-      </form>
 
-      {
-        holidays.length === 0 ? (
-          <span class="font-bold text-xl text-center">No custom holidays defined!</span>
-        ) : (
-          <table class="w-full text-sm text-left rtl:text-right">
-            <thead class="text-xs bg-gray-200">
-              <tr>
-                <th class="px-6 py-3">
-                  <div class="flex flex-row gap-2 items-center">
-                    <span>{m.name()}</span>
-                    <Icon name="mdi:edit" />
-                  </div>
-                </th>
-                <th class="px-6 py-3">
-                  <div class="flex flex-row gap-2 items-center">
-                    <span>{m.date()}</span>
-                    <Icon name="mdi:edit" />
-                  </div>
-                </th>
-                <th class="px-6 py-3">{m.actions()}</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {holidays.map((holiday) => {
-                return (
-                  <tr class="even:bg-gray-100">
-                    <td class="px-4">
-                      <form method="POST" action={`/api/holidays/${holiday.id}/edit`}>
-                        <input type="text" name="name" value={holiday.name} class="bg-transparent" />
-                        <input type="submit" hidden />
-                      </form>
-                    </td>
-                    <td class="px-4">
-                      <form method="POST" action={`/api/holidays/${holiday.id}/edit`}>
-                        <input type="date" name="date" value={holiday.date} class="bg-transparent" onchange="this.form.submit()" />
-                        <input type="submit" hidden />
-                      </form>
-                    </td>
-                    <td class="px-4 py-2">
-                      <div class="flex flex-row gap-2 items-center">
-                        <form method="POST" action={`/api/holidays/${holiday.id}/delete`}>
-                          <Remove />
-                        </form>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )
-      }
+      <Table client:load="svelte" />
     </div>
   </div>
 </Subpage>

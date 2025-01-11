@@ -13,13 +13,24 @@ export const GET: APIRoute = async () => {
   });
 };
 
-export const POST: APIRoute = async ({ request, redirect }) => {
+export const POST: APIRoute = async ({ request }) => {
   const formData = await request.formData();
 
-  await db.insert(holiday).values({
-    name: formData.get("name")?.toString(),
-    date: formData.get("date")!.toString(),
-  });
+  try {
+    const newHoliday = await db
+      .insert(holiday)
+      .values({
+        name: formData.get("name")?.toString(),
+        date: formData.get("date")!.toString(),
+      })
+      .returning();
 
-  return redirect(request.headers.get("referer") || "/");
+    return new Response(JSON.stringify(newHoliday), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch {
+    return new Response(null, { status: 400 });
+  }
 };
