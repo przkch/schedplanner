@@ -17,7 +17,7 @@
   const id = getRandomId("input");
 </script>
 
-<div class:list={["h-full flex flex-col", { "justify-end items-end": !props.label }]}>
+<div class={["h-full flex flex-col", { "justify-end items-end": !props.label }]}>
   <label for={id} class="text-gray-700">
     {props.label}
   </label>
@@ -28,6 +28,6 @@
     required={props.required}
     value={props.value}
     onchange={props.onchange}
-    class:list={["block mt-auto mb-[1px] h-[2.5rem] w-full rounded-md cursor-pointer", props.class]}
+    class={["block mt-auto mb-[1px] h-[2.5rem] w-full cursor-pointer", props.class]}
   />
 </div>
