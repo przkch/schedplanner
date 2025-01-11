@@ -1,9 +1,12 @@
 ---
 import HTMLInput from "@components/form/HTMLInput.svelte";
 
-const now = new Date();
-const year = Astro.cookies.get("year")?.number() || now.getFullYear();
-const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
+interface Props {
+  year: number;
+  month: number;
+}
+
+const { year, month } = Astro.props;
 ---
 
 <HTMLInput name="month" type="month" value=`${year}-${String(month).padStart(2, "0")}` class="flex flex-row items-center" />

@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 interface Props {
   icon: string;
   text: string;
+  year: number;
   month: number;
   class?: string;
 }
@@ -12,9 +13,7 @@ const props = Astro.props;
 
 const id = "month_button_" + Math.random().toString(16).slice(2);
 
-const now = new Date();
-
-let year = Astro.cookies.get("year")?.number() || now.getFullYear();
+let year = props.year;
 let month = props.month;
 
 year = month == 0 ? year - 1 : month == 13 ? year + 1 : year;

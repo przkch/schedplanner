@@ -44,9 +44,9 @@ const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
 
 <Layout title="SchedPlanner">
   <div class="p-4 mx-auto flex flex-row justify-between gap-4 items-center">
-    <MonthButton icon="mdi:arrow-left" text={m.previous()} month={Number(month) - 1} />
-    <MonthPicker />
-    <MonthButton icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" month={Number(month) + 1} />
+    <MonthButton icon="mdi:arrow-left" text={m.previous()} year={year} month={Number(month) - 1} />
+    <MonthPicker year={year} month={month} />
+    <MonthButton icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" year={year} month={Number(month) + 1} />
   </div>
   <Table teamId={currentTeamId} year={year} month={month} />
 </Layout>
