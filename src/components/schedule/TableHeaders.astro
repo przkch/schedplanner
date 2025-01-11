@@ -1,5 +1,6 @@
 ---
 import { holiday } from "@lib/database/schema";
+import { getDays } from "@lib/utils/date";
 
 import * as m from "@paraglide/messages";
 
@@ -12,46 +13,28 @@ interface Props {
 
 const { holidays, year, month, footer = false } = Astro.props;
 
-const dayFormat = new Intl.DateTimeFormat(Astro.preferredLocale || "en", { weekday: "short" });
-
-const now = new Date();
-
-const days_count = new Date(year, month, 0).getDate();
+const days = getDays(year, month, holidays, Astro.preferredLocale);
 ---
 
 <tr>
   <td class="font-bold text-left px-4 border-1">{!footer ? m.employees() : m.counts_on_shifts()}</td>
   {
-    Array.from(Array(days_count), (_, i) => {
-      i = i + 1;
-      const _day = new Date(year, month - 1, i);
-      const is_today = now.setHours(0, 0, 0, 0) == _day.setHours(0, 0, 0, 0);
-      const is_weekend = [0, 6].includes(_day.getDay());
-      const is_custom_holiday = holidays
-        .flatMap((h) => h.date)
-        .includes(`${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`);
-      const is_free = is_weekend || is_custom_holiday;
-
-      const custom_holiday = holidays.find(
-        (h) => h.date == `${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`
-      );
-      const custom_holiday_name = custom_holiday?.name;
-
+    days.map((d) => {
       return (
         <td
           class:list={[
             "text-center border-1",
             {
-              "bg-custom-holiday text-gray-100": is_free,
-              "bg-gray-300 text-gray-800": is_today,
-              "bg-gray-50 text-gray-800": !is_free && !is_today,
+              "bg-custom-holiday text-gray-100": d.isFree,
+              "bg-gray-300 text-gray-800": d.isToday,
+              "bg-gray-50 text-gray-800": !d.isFree && !d.isToday,
             },
           ]}
-          title={custom_holiday_name ? custom_holiday_name : null}
+          title={d.customHolidayName}
         >
-          {i}
+          {d.idx}
           <br />
-          <span class="text-[0.75rem]">{dayFormat.format(_day)}</span>
+          <span class="text-[0.75rem]">{d.shortDay}</span>
         </td>
       );
     })

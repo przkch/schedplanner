@@ -1,10 +1,10 @@
 ---
 import AddSchedule from "@components/modals/AddSchedule.svelte";
 import TableHeaders from "@components/schedule/TableHeaders.astro";
-
 import { db } from "@lib/database";
 import { employee, schedule, shift, group, holiday } from "@lib/database/schema";
 import { fmtShift } from "@lib/utils";
+import { getDays } from "@lib/utils/date";
 
 import * as m from "@paraglide/messages";
 import { and, eq, inArray, sql } from "drizzle-orm";
@@ -44,8 +44,6 @@ const employees_schedule = await db
   .leftJoin(shift, eq(schedule.shiftId, shift.id))
   .leftJoin(employee, eq(schedule.employeeId, employee.id))
   .orderBy(schedule.day);
-
-const days_count = new Date(year, month, 0).getDate();
 
 const full_schedule = {};
 const total_hours = {};
@@ -100,6 +98,8 @@ const holidays = await db
   .select()
   .from(holiday)
   .where(sql.raw(`date::text LIKE '${year.toString()}-%'`));
+
+const days = getDays(year, month, holidays);
 ---
 
 <div class="overflow-auto h-[calc(100vh-7.5rem)]">
@@ -127,31 +127,19 @@ const holidays = await db
                       <td class="px-4 whitespace-nowrap h-fit border-1">
                         {employee.firstName} {employee.lastName}
                       </td>
-                      {Array.from(Array(days_count), (_, i) => {
-                        i = i + 1;
-
+                      {days.map((d) => {
                         let label: string | undefined = undefined;
                         let color: string | undefined = undefined;
                         let start: string | undefined = undefined;
                         let end: string | undefined = undefined;
                         let shiftType: string | undefined = undefined;
 
-                        const _day = new Date(year, month - 1, i);
-                        const is_today = now.setHours(0, 0, 0, 0) === _day.setHours(0, 0, 0, 0);
-                        const is_weekend = [0, 6].includes(_day.getDay());
-                        const is_custom_holiday = holidays
-                          .flatMap((h) => h.date)
-                          .includes(
-                            `${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`
-                          );
-                        const is_free = is_weekend || is_custom_holiday;
-
-                        if (employee.id in full_schedule && i in full_schedule[employee.id]) {
-                          label = full_schedule[employee.id][i]["label"];
-                          color = full_schedule[employee.id][i]["color"];
-                          start = full_schedule[employee.id][i]["start"];
-                          end = full_schedule[employee.id][i]["end"];
-                          shiftType = full_schedule[employee.id][i]["shiftType"];
+                        if (employee.id in full_schedule && d.idx in full_schedule[employee.id]) {
+                          label = full_schedule[employee.id][d.idx]["label"];
+                          color = full_schedule[employee.id][d.idx]["color"];
+                          start = full_schedule[employee.id][d.idx]["start"];
+                          end = full_schedule[employee.id][d.idx]["end"];
+                          shiftType = full_schedule[employee.id][d.idx]["shiftType"];
                         }
 
                         return (
@@ -159,13 +147,13 @@ const holidays = await db
                             style={{ backgroundColor: color }}
                             class:list={[
                               "hover:bg-opacity-50 transition-colors border-1 selectable",
-                              { "bg-gray-300 text-gray-800": !color && is_today, "bg-custom-holiday": !color && is_free },
+                              { "bg-gray-300 text-gray-800": !color && d.isToday, "bg-custom-holiday": !color && d.isFree },
                             ]}
                             data-employee={employee.id}
-                            data-day={i}
+                            data-day={d.idx}
                             title={label ? `Shift ${label}\n${start} - ${end}\n${shiftType}` : "Click to add shift"}
                           >
-                            <button class="flex flex-col items-center justify-center size-8 selectable" data-employee={employee.id} data-day={i}>
+                            <button class="flex flex-col items-center justify-center size-8 selectable" data-employee={employee.id} data-day={d.idx}>
                               {label ? (
                                 label
                               ) : start && end ? (
@@ -204,30 +192,19 @@ const holidays = await db
                     </>
                   )}
                 </td>
-                {Array.from(Array(days_count), (_, i) => {
-                  i = i + 1;
-
-                  const _day = new Date(year, month - 1, i);
-                  const is_today = now.setHours(0, 0, 0, 0) == _day.setHours(0, 0, 0, 0);
-                  const is_weekend = [0, 6].includes(_day.getDay());
-                  const is_custom_holiday = holidays
-                    .flatMap((h) => h.date)
-                    .includes(
-                      `${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`
-                    );
-                  const is_free = is_weekend || is_custom_holiday;
-                  const _count = shift_counts[s.id] && shift_counts[s.id][i] ? shift_counts[s.id][i] : 0;
+                {days.map((d) => {
+                  const count = shift_counts[s.id] && shift_counts[s.id][d.idx] ? shift_counts[s.id][d.idx] : 0;
 
                   return (
                     <td
                       class:list={[
                         "h-fit text-center border-1",
-                        { "bg-custom-holiday text-gray-100": is_free },
-                        { "bg-gray-300 text-gray-800": is_today },
-                        { "font-bold": _count > 0 },
+                        { "bg-custom-holiday text-gray-100": d.isFree },
+                        { "bg-gray-300 text-gray-800": d.isToday },
+                        { "font-bold": count > 0 },
                       ]}
                     >
-                      {_count}
+                      {count}
                     </td>
                   );
                 })}
