@@ -6,6 +6,7 @@ import { db } from "@lib/database";
 import { employee, schedule, shift, group, holiday } from "@lib/database/schema";
 import { fmtShift } from "@lib/utils";
 
+import * as m from "@paraglide/messages";
 import { and, eq, inArray, sql } from "drizzle-orm";
 
 interface Props {
@@ -102,140 +103,142 @@ const holidays = await db
 ---
 
 <div class="overflow-auto h-[calc(100vh-7.4rem)]">
-  <table class="table-auto border-collapse text-sm">
-    <TableHeaders holidays={holidays} year={year} month={month} />
-    {
-      groups.map((group) => {
-        return (
-          <>
-            <tr>
-              <td class="font-bold uppercase text-center">{group.name}</td>
-            </tr>
-            {employees
-              .filter((employee) => employee.groupId === group.id)
-              .map((employee) => {
-                let _total_hours = 0;
-
-                if (employee.id in total_hours) {
-                  _total_hours = total_hours[employee.id];
-                }
-
-                return (
-                  <tr>
-                    <td class="px-4 whitespace-nowrap h-fit border-1">
-                      {employee.firstName} {employee.lastName}
-                    </td>
-                    {Array.from(Array(days_count), (_, i) => {
-                      i = i + 1;
-
-                      let label: string | undefined = undefined;
-                      let color: string | undefined = undefined;
-                      let start: string | undefined = undefined;
-                      let end: string | undefined = undefined;
-                      let shiftType: string | undefined = undefined;
-
-                      const _day = new Date(year, month - 1, i);
-                      const is_today = now.setHours(0, 0, 0, 0) === _day.setHours(0, 0, 0, 0);
-                      const is_weekend = [0, 6].includes(_day.getDay());
-                      const is_custom_holiday = holidays
-                        .flatMap((h) => h.date)
-                        .includes(
-                          `${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`
-                        );
-                      const is_free = is_weekend || is_custom_holiday;
-
-                      if (employee.id in full_schedule && i in full_schedule[employee.id]) {
-                        label = full_schedule[employee.id][i]["label"];
-                        color = full_schedule[employee.id][i]["color"];
-                        start = full_schedule[employee.id][i]["start"];
-                        end = full_schedule[employee.id][i]["end"];
-                        shiftType = full_schedule[employee.id][i]["shiftType"];
-                      }
-
-                      return (
-                        <td
-                          style={{ backgroundColor: color }}
-                          class:list={[
-                            "hover:bg-opacity-50 transition-colors border-1 selectable",
-                            { "bg-gray-300 text-gray-800": !color && is_today, "bg-custom-holiday": !color && is_free },
-                          ]}
-                          data-employee={employee.id}
-                          data-day={i}
-                          title={label ? `Shift ${label}\n${start} - ${end}\n${shiftType}` : "Click to add shift"}
-                        >
-                          <button class="flex flex-col items-center justify-center size-8 selectable" data-employee={employee.id} data-day={i}>
-                            {label ? (
-                              label
-                            ) : start && end ? (
-                              <>
-                                {start}
-                                <br />
-                                {end}
-                              </>
-                            ) : null}
-                          </button>
-                        </td>
-                      );
-                    })}
-                    <td class:list={["border-1 text-xs text-center", { "font-bold": _total_hours > 0 }]}>{_total_hours}</td>
-                  </tr>
-                );
-              })}
-          </>
-        );
-      })
-    }
-    <TableHeaders holidays={holidays} year={year} month={month} footer={true} />
-    {
-      shifts
-        .filter((s) => shift_counts[s.id])
-        .map((s) => {
+  {
+    employees.length && groups.length ? (
+      <table class="table-auto border-collapse text-sm">
+        <TableHeaders holidays={holidays} year={year} month={month} />
+        {groups.map((group) => {
           return (
-            <tr>
-              <td class="px-4 h-fit min-w-64 border-1">
-                {s.label ? (
-                  s.label
-                ) : (
-                  <>
-                    <span>{s.shiftType}</span>
-                    <span>
-                      {fmtShift(s.start)} - {fmtShift(s.end)}
-                    </span>
-                  </>
-                )}
-              </td>
-              {Array.from(Array(days_count), (_, i) => {
-                i = i + 1;
+            <>
+              <tr>
+                <td class="font-bold uppercase text-center">{group.name}</td>
+              </tr>
+              {employees
+                .filter((employee) => employee.groupId === group.id)
+                .map((employee) => {
+                  let _total_hours = 0;
 
-                const _day = new Date(year, month - 1, i);
-                const is_today = now.setHours(0, 0, 0, 0) == _day.setHours(0, 0, 0, 0);
-                const is_weekend = [0, 6].includes(_day.getDay());
-                const is_custom_holiday = holidays
-                  .flatMap((h) => h.date)
-                  .includes(
-                    `${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`
+                  if (employee.id in total_hours) {
+                    _total_hours = total_hours[employee.id];
+                  }
+
+                  return (
+                    <tr>
+                      <td class="px-4 whitespace-nowrap h-fit border-1">
+                        {employee.firstName} {employee.lastName}
+                      </td>
+                      {Array.from(Array(days_count), (_, i) => {
+                        i = i + 1;
+
+                        let label: string | undefined = undefined;
+                        let color: string | undefined = undefined;
+                        let start: string | undefined = undefined;
+                        let end: string | undefined = undefined;
+                        let shiftType: string | undefined = undefined;
+
+                        const _day = new Date(year, month - 1, i);
+                        const is_today = now.setHours(0, 0, 0, 0) === _day.setHours(0, 0, 0, 0);
+                        const is_weekend = [0, 6].includes(_day.getDay());
+                        const is_custom_holiday = holidays
+                          .flatMap((h) => h.date)
+                          .includes(
+                            `${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`
+                          );
+                        const is_free = is_weekend || is_custom_holiday;
+
+                        if (employee.id in full_schedule && i in full_schedule[employee.id]) {
+                          label = full_schedule[employee.id][i]["label"];
+                          color = full_schedule[employee.id][i]["color"];
+                          start = full_schedule[employee.id][i]["start"];
+                          end = full_schedule[employee.id][i]["end"];
+                          shiftType = full_schedule[employee.id][i]["shiftType"];
+                        }
+
+                        return (
+                          <td
+                            style={{ backgroundColor: color }}
+                            class:list={[
+                              "hover:bg-opacity-50 transition-colors border-1 selectable",
+                              { "bg-gray-300 text-gray-800": !color && is_today, "bg-custom-holiday": !color && is_free },
+                            ]}
+                            data-employee={employee.id}
+                            data-day={i}
+                            title={label ? `Shift ${label}\n${start} - ${end}\n${shiftType}` : "Click to add shift"}
+                          >
+                            <button class="flex flex-col items-center justify-center size-8 selectable" data-employee={employee.id} data-day={i}>
+                              {label ? (
+                                label
+                              ) : start && end ? (
+                                <>
+                                  {start}
+                                  <br />
+                                  {end}
+                                </>
+                              ) : null}
+                            </button>
+                          </td>
+                        );
+                      })}
+                      <td class:list={["border-1 text-xs text-center", { "font-bold": _total_hours > 0 }]}>{_total_hours}</td>
+                    </tr>
                   );
-                const is_free = is_weekend || is_custom_holiday;
-                const _count = shift_counts[s.id] && shift_counts[s.id][i] ? shift_counts[s.id][i] : 0;
-
-                return (
-                  <td
-                    class:list={[
-                      "h-fit text-center border-1",
-                      { "bg-custom-holiday text-gray-100": is_free },
-                      { "bg-gray-300 text-gray-800": is_today },
-                      { "font-bold": _count > 0 },
-                    ]}
-                  >
-                    {_count}
-                  </td>
-                );
-              })}
-            </tr>
+                })}
+            </>
           );
-        })
-    }
-  </table>
+        })}
+        <TableHeaders holidays={holidays} year={year} month={month} footer={true} />
+        {shifts
+          .filter((s) => shift_counts[s.id])
+          .map((s) => {
+            return (
+              <tr>
+                <td class="px-4 h-fit min-w-64 border-1">
+                  {s.label ? (
+                    s.label
+                  ) : (
+                    <>
+                      <span>{s.shiftType}</span>
+                      <span>
+                        {fmtShift(s.start)} - {fmtShift(s.end)}
+                      </span>
+                    </>
+                  )}
+                </td>
+                {Array.from(Array(days_count), (_, i) => {
+                  i = i + 1;
+
+                  const _day = new Date(year, month - 1, i);
+                  const is_today = now.setHours(0, 0, 0, 0) == _day.setHours(0, 0, 0, 0);
+                  const is_weekend = [0, 6].includes(_day.getDay());
+                  const is_custom_holiday = holidays
+                    .flatMap((h) => h.date)
+                    .includes(
+                      `${year}-${_day.toLocaleDateString("pl-PL", { month: "2-digit" })}-${_day.toLocaleDateString("pl-PL", { day: "2-digit" })}`
+                    );
+                  const is_free = is_weekend || is_custom_holiday;
+                  const _count = shift_counts[s.id] && shift_counts[s.id][i] ? shift_counts[s.id][i] : 0;
+
+                  return (
+                    <td
+                      class:list={[
+                        "h-fit text-center border-1",
+                        { "bg-custom-holiday text-gray-100": is_free },
+                        { "bg-gray-300 text-gray-800": is_today },
+                        { "font-bold": _count > 0 },
+                      ]}
+                    >
+                      {_count}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+      </table>
+    ) : (
+      <div class="text-center">{m.no_employees()}</div>
+    )
+  }
   <AddSchedule client:load="svelte" year={year} month={month} day="" employee_id="" shifts={shifts} />
 </div>
 <style>
