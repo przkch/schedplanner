@@ -27,9 +27,9 @@ const teams = await db
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-4">
       <h3 class="font-bold text-3xl">{m.teams()}</h3>
-      <form method="POST" action="/api/teams" class="flex flex-row gap-2">
+      <form method="POST" action="/api/teams" class="flex flex-col sm:flex-row gap-2">
         <HTMLInput name="name" placeholder={m.name()} type="text" required class="w-full" />
-        <HTMLSubmit label={m.add()} />
+        <HTMLSubmit label={m.add()} class="self-end" />
       </form>
 
       {
@@ -50,16 +50,16 @@ const teams = await db
               {teams.map((team) => {
                 return (
                   <tr class="even:bg-gray-100">
-                    <td class="px-6 py-4">
+                    <td class="px-4">
                       <form method="POST" action={`/api/teams/${team.id}/rename`}>
                         <input type="text" id="team_name" name="team_name" value={team.name} class="bg-transparent" />
                         <input type="submit" hidden />
                       </form>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4">
                       <span>{team.employeesCount}</span>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4 py-2">
                       <div class="flex flex-row gap-2 items-center">
                         <a href={`/teams/${team.id}`}>{m.edit()}</a>
                         <form method="POST" action={`/api/teams/${team.id}/delete`}>

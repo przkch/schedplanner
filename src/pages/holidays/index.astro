@@ -17,12 +17,10 @@ const holidays = await db.select().from(holiday).orderBy(holiday.date);
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-4">
       <h3 class="font-bold text-3xl">{m.holidays()}</h3>
-      <form method="POST" action="/api/holidays" class="flex flex-col gap-8">
-        <div class="grid grid-cols-2 gap-6 items-center">
-          <HTMLInput name="name" label={m.name()} type="text" />
-          <HTMLInput name="date" label={m.date()} type="date" required />
-        </div>
-        <HTMLSubmit label={m.add()} class="col-span-2" />
+      <form method="POST" action="/api/holidays" class="flex flex-col sm:flex-row gap-2 items-center">
+        <HTMLInput name="name" label={m.name()} type="text" class="w-full" />
+        <HTMLInput name="date" label={m.date()} type="date" required class="w-full sm:w-fit" />
+        <HTMLSubmit label={m.add()} class="self-end" />
       </form>
 
       {
@@ -35,7 +33,6 @@ const holidays = await db.select().from(holiday).orderBy(holiday.date);
                 <th class="px-6 py-3">{m.name()}</th>
                 <th class="px-6 py-3">{m.date()}</th>
                 <th class="px-6 py-3">{m.actions()}</th>
-                <th />
               </tr>
             </thead>
 
@@ -43,16 +40,16 @@ const holidays = await db.select().from(holiday).orderBy(holiday.date);
               {holidays.map((holiday) => {
                 return (
                   <tr class="even:bg-gray-100">
-                    <td class="px-6 py-4">
+                    <td class="px-4">
                       <form method="POST" action={`/api/holidays/${holiday.id}/rename`}>
                         <input type="text" id="holiday_name" name="holiday_name" value={holiday.name} class="bg-transparent" />
                         <input type="submit" hidden />
                       </form>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4">
                       <span>{holiday.date}</span>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-4 py-2">
                       <div class="flex flex-row gap-2 items-center">
                         <form method="POST" action={`/api/holidays/${holiday.id}/delete`}>
                           <Remove />
