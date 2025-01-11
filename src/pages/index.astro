@@ -21,17 +21,16 @@ if (Astro.cookies.has("current_team_id")) {
     Astro.cookies.delete("current_team_id");
     currentTeamId = undefined;
   }
-}
-
-if (!currentTeamId) {
+} else {
   const defaultTeam = (await db.select({ id: team.id }).from(team).where(eq(team.defaultTeam, true)))[0];
+
+  if (!defaultTeam) {
+    console.log("Default team not found in the database! Redirecting to /teams");
+    return Astro.redirect("/teams");
+  }
+
   currentTeamId = defaultTeam.id;
   Astro.cookies.set("current_team_id", currentTeamId.toString());
-}
-
-if (!currentTeamId) {
-  console.log("Current team is for some reason not set, redirecting to /teams");
-  return Astro.redirect("/teams");
 }
 
 const now = new Date();
