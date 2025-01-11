@@ -10,12 +10,13 @@ import * as m from "@paraglide/messages";
 import { and, eq, inArray, sql } from "drizzle-orm";
 
 interface Props {
-  teamId: number;
   year: number;
   month: number;
 }
 
-const { teamId, year, month } = Astro.props;
+const { year, month } = Astro.props;
+
+const teamId = Astro.cookies.get("current_team_id")!.number();
 
 const employees = await db.select().from(employee).where(eq(employee.teamId, teamId)).orderBy(employee.firstName, employee.lastName);
 const groups = await db.select().from(group).where(eq(group.teamId, teamId));

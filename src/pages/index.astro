@@ -5,33 +5,7 @@ import MonthButton from "@components/buttons/MonthButton.svelte";
 import MonthPicker from "@components/buttons/MonthPicker.svelte";
 import Table from "@components/schedule/Table.astro";
 
-import { db } from "@lib/database";
-import { team } from "@lib/database/schema";
-
 import * as m from "@paraglide/messages";
-
-import { eq } from "drizzle-orm";
-
-let currentTeamId: number | undefined;
-
-if (Astro.cookies.has("current_team_id")) {
-  currentTeamId = Astro.cookies.get("current_team_id")?.number();
-  if (currentTeamId && (await db.select().from(team).where(eq(team.id, currentTeamId))).length == 0) {
-    console.warn(`Team id '${currentTeamId}' not found in the database! Clearing the cookie.`);
-    Astro.cookies.delete("current_team_id");
-    currentTeamId = undefined;
-  }
-} else {
-  const defaultTeam = (await db.select({ id: team.id }).from(team).where(eq(team.defaultTeam, true)))[0];
-
-  if (!defaultTeam) {
-    console.log("Default team not found in the database! Redirecting to /teams");
-    return Astro.redirect("/teams");
-  }
-
-  currentTeamId = defaultTeam.id;
-  Astro.cookies.set("current_team_id", currentTeamId.toString());
-}
 
 const now = new Date();
 const year = Astro.cookies.get("year")?.number() || now.getFullYear();
@@ -44,5 +18,5 @@ const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
     <MonthPicker client:load="svelte" year={year} month={month} />
     <MonthButton client:load="svelte" icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" year={year} month={Number(month) + 1} />
   </div>
-  <Table teamId={currentTeamId} year={year} month={month} />
+  <Table year={year} month={month} />
 </Layout>
