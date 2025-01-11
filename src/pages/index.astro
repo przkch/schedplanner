@@ -9,11 +9,8 @@ import { db } from "@lib/database";
 import { team } from "@lib/database/schema";
 
 import * as m from "@paraglide/messages";
-import { setLanguageTag } from "@paraglide/runtime";
 
 import { eq } from "drizzle-orm";
-
-setLanguageTag((Astro.preferredLocale || "en") as any);
 
 let currentTeamId: number | undefined;
 

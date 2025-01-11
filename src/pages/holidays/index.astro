@@ -9,9 +9,6 @@ import HTMLInput from "@components/form/HTMLInput.svelte";
 import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
 
 import * as m from "@paraglide/messages";
-import { setLanguageTag } from "@paraglide/runtime";
-
-setLanguageTag((Astro.preferredLocale || "en") as any);
 
 const holidays = await db.select().from(holiday).orderBy(holiday.date);
 ---

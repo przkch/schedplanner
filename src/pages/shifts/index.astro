@@ -11,9 +11,6 @@ import HTMLSelect from "@components/form/HTMLSelect.svelte";
 import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
 
 import * as m from "@paraglide/messages";
-import { setLanguageTag } from "@paraglide/runtime";
-
-setLanguageTag((Astro.preferredLocale || "en") as any);
 
 const shifts = await db.select().from(shift).orderBy(shift.id);
 ---

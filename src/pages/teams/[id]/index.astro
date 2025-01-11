@@ -10,10 +10,7 @@ import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
 
 import { eq } from "drizzle-orm";
 import * as m from "@paraglide/messages";
-import { setLanguageTag } from "@paraglide/runtime";
 import HTMLSelect from "@components/form/HTMLSelect.svelte";
-
-setLanguageTag((Astro.preferredLocale || "en") as any);
 
 const { id } = Astro.params;
 

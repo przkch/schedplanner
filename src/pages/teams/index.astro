@@ -10,9 +10,6 @@ import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
 
 import { count, eq } from "drizzle-orm";
 import * as m from "@paraglide/messages";
-import { setLanguageTag } from "@paraglide/runtime";
-
-setLanguageTag((Astro.preferredLocale || "en") as any);
 
 const teams = await db
   .select({
