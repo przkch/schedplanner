@@ -1,8 +1,8 @@
 ---
 import Layout from "@layouts/Common.astro";
 
-import MonthButton from "@components/buttons/MonthButton.astro";
-import MonthPicker from "@components/buttons/MonthPicker.astro";
+import MonthButton from "@components/buttons/MonthButton.svelte";
+import MonthPicker from "@components/buttons/MonthPicker.svelte";
 import Table from "@components/schedule/Table.astro";
 
 import { db } from "@lib/database";
@@ -41,9 +41,9 @@ const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
 
 <Layout title="SchedPlanner">
   <div class="p-4 mx-auto flex flex-row justify-between gap-4 items-center">
-    <MonthButton icon="mdi:arrow-left" text={m.previous()} year={year} month={Number(month) - 1} />
-    <MonthPicker year={year} month={month} />
-    <MonthButton icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" year={year} month={Number(month) + 1} />
+    <MonthButton client:load="svelte" icon="mdi:arrow-left" text={m.previous()} year={year} month={Number(month) - 1} />
+    <MonthPicker client:load="svelte" year={year} month={month} />
+    <MonthButton client:load="svelte" icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" year={year} month={Number(month) + 1} />
   </div>
   <Table teamId={currentTeamId} year={year} month={month} />
 </Layout>
