@@ -14,12 +14,21 @@
   }
 
   const props: Props = $props();
+
+  const submit = async () => {
+    const form = document.querySelector("dialog#modify_schedule form") as HTMLFormElement;
+    const formData = new FormData(form);
+
+    await fetch("/api/schedule", { method: "POST", body: formData });
+
+    window.location.reload();
+  };
 </script>
 
 <dialog id="modify_schedule" class="rounded-xl">
   <div class="p-4">
     <div class="flex flex-col gap-8">
-      <form method="POST" action="/api/schedule">
+      <form>
         <div class="flex flex-col gap-4">
           <select name="shift_id" class="bg-slate-200 px-4 py-2" required>
             <option value="-1">{m.none()}</option>
@@ -39,18 +48,16 @@
           <input name="day" value={props.day} hidden />
 
           <div class="flex flex-row justify-between gap-4">
-            <button
+            <HTMLSubmit
+              label={m.cancel()}
               type="button"
-              class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md enabled:hover:bg-gray-600 focus:outline-none enabled:focus:bg-gray-600 disabled:opacity-75"
               onclick={() => {
                 const dialog = document.querySelector("dialog#modify_schedule") as HTMLDialogElement;
 
                 dialog.close();
               }}
-            >
-              {m.cancel()}
-            </button>
-            <HTMLSubmit label={m.save()} class="col-span-2" />
+            ></HTMLSubmit>
+            <HTMLSubmit label={m.save()} class="col-span-2" type="button" onclick={submit} />
           </div>
         </div>
       </form>
