@@ -10,6 +10,7 @@ import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
 
 import { count, eq } from "drizzle-orm";
 import * as m from "@paraglide/messages";
+import { Icon } from "astro-icon/components";
 
 const teams = await db
   .select({
@@ -39,10 +40,14 @@ const teams = await db
           <table class="w-full text-sm text-left rtl:text-right">
             <thead class="text-xs bg-gray-200">
               <tr>
-                <th class="px-6 py-3">{m.name()}</th>
+                <th class="px-6 py-3">
+                  <div class="flex flex-row gap-2 items-center">
+                    <span>{m.name()}</span>
+                    <Icon name="mdi:edit" />
+                  </div>
+                </th>
                 <th class="px-6 py-3">{m.employees_count()}</th>
                 <th class="px-6 py-3">{m.actions()}</th>
-                <th />
               </tr>
             </thead>
 
