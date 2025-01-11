@@ -11,7 +11,8 @@ export const POST: APIRoute = async ({ params, request }) => {
     const data = await db
       .update(employee)
       .set({
-        groupId: Number(formData.get("group_id")),
+        firstName: formData.get("first_name")?.toString(),
+        lastName: formData.get("last_name")?.toString(),
       })
       .where(and(eq(employee.teamId, Number(params.teamId)), eq(employee.id, Number(params.employeeId))));
 

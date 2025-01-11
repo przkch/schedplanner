@@ -22,6 +22,15 @@ export const group = pgTable(
   ]
 );
 
+export interface employeeV {
+  id: number;
+  firstName: string;
+  lastName: string;
+  teamId: number;
+  groupId: number;
+  groupName: string;
+}
+
 export const employee = pgTable(
   "employee",
   {

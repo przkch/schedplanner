@@ -5,7 +5,11 @@ import type { APIRoute } from "astro";
 import { and, eq } from "drizzle-orm";
 
 export const POST: APIRoute = async ({ params, request, redirect }) => {
-  await db.delete(group).where(and(eq(group.teamId, Number(params.teamId)), eq(group.id, Number(params.groupId))));
+  try {
+    await db.delete(group).where(and(eq(group.teamId, Number(params.teamId)), eq(group.id, Number(params.groupId))));
 
-  return redirect(request.headers.get("referer") || "/");
+    return new Response(null, { status: 200 });
+  } catch {
+    return new Response(null, { status: 400 });
+  }
 };
