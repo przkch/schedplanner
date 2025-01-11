@@ -9,7 +9,7 @@ export const POST: APIRoute = async ({ params, request, redirect }) => {
 
   await db
     .update(holiday)
-    .set({ name: formData.get("holiday_name")?.toString() })
+    .set({ name: formData.get("name")?.toString(), date: formData.get("date")?.toString() })
     .where(eq(holiday.id, Number(params.holidayId)));
 
   return redirect(request.headers.get("referer") || "/");
