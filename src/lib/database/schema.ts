@@ -59,6 +59,27 @@ export const employee = pgTable(
   ]
 );
 
+export interface FullSchedule {
+  label: string;
+  start: string;
+  end: string;
+  color: string;
+  shiftType: typeof shiftTypes.enumValues;
+}
+
+export interface EmployeesSchedule {
+  employeeId: number;
+  shiftId: number;
+  year: number;
+  month: number;
+  day: number;
+  label: string;
+  start: string;
+  end: string;
+  color: string;
+  shiftType: typeof shiftTypes.enumValues;
+}
+
 export const schedule = pgTable(
   "schedule",
   {

@@ -15,7 +15,16 @@ export const getDaysCount = (year: number, month: number) => {
   return new Date(year, month, 0).getDate();
 };
 
-export const getDays = (year: number, month: number, holidays: (typeof holiday.$inferSelect)[], locale?: Intl.LocalesArgument) => {
+export interface Days {
+  idx: number;
+  day: Date;
+  shortDay: string;
+  isToday: boolean;
+  isFree: boolean;
+  customHolidayName?: string;
+}
+
+export const getDays = (year: number, month: number, holidays: (typeof holiday.$inferSelect)[], locale?: Intl.LocalesArgument): Days[] => {
   const now = new Date();
   const daysCount = getDaysCount(year, month);
 
@@ -31,7 +40,7 @@ export const getDays = (year: number, month: number, holidays: (typeof holiday.$
       shortDay: getShortDay(day, locale ?? "en"),
       isToday: now.setHours(0, 0, 0, 0) == day.setHours(0, 0, 0, 0),
       isFree: isWeekend || isCustomHoliday,
-      customHolidayName: holidays.find((h) => h.date == getFullDate(day))?.name,
+      customHolidayName: holidays.find((h) => h.date == getFullDate(day))?.name ?? undefined,
     };
   });
 };

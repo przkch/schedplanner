@@ -3,13 +3,15 @@ import Layout from "@layouts/Common.astro";
 
 import MonthButton from "@components/buttons/MonthButton.svelte";
 import MonthPicker from "@components/buttons/MonthPicker.svelte";
-import Table from "@components/schedule/Table.astro";
+import Table from "@components/schedule/Table.svelte";
 
 import * as m from "@paraglide/messages";
 
 const now = new Date();
 const year = Astro.cookies.get("year")?.number() || now.getFullYear();
 const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
+
+const teamId = Astro.cookies.get("current_team_id")?.number();
 ---
 
 <Layout title="SchedPlanner">
@@ -18,5 +20,5 @@ const month = Astro.cookies.get("month")?.number() || now.getMonth() + 1;
     <MonthPicker client:load="svelte" year={year} month={month} />
     <MonthButton client:load="svelte" icon="mdi:arrow-right" text={m.next()} class="flex-row-reverse" year={year} month={Number(month) + 1} />
   </div>
-  <Table year={year} month={month} />
+  <Table client:only="svelte" teamId={teamId} year={year} month={month} />
 </Layout>
