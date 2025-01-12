@@ -245,8 +245,6 @@
     const response = await fetch("/api/schedule", { method: "POST", body: formData });
 
     if ([200, 204].includes(response.status)) {
-      await generateFullSchedule();
-
       dialog.close();
     }
   };
