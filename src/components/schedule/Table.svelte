@@ -315,32 +315,34 @@
           {/if}
         {/each}
       {/each}
-      <TableHeaders {holidays} {year} {month} footer={true} />
-      {#if shifts}
+      {#if shifts && shiftCounts}
+        <TableHeaders {holidays} {year} {month} footer={true} />
         {#each shifts as s (s.id)}
-          <tr>
-            <td class="px-4 h-fit min-w-64 border-1">
-              {#if s.label}
-                {s.label}
-              {:else}
-                <span>{s.shiftType}</span>
-                <span>
-                  {fmtShift(s.start)} - {fmtShift(s.end)}
-                </span>
-              {/if}
-            </td>
-            {#each days as d}
-              <td class={["h-fit text-center border-1", { "bg-custom-holiday text-gray-100": d.isFree, "bg-gray-300 text-gray-800": d.isToday }]}>
-                {#if shiftCounts[s.id] && shiftCounts[s.id][d.idx]}
-                  <span class="font-bold">
-                    {shiftCounts[s.id][d.idx]}
-                  </span>
+          {#if shiftCounts[s.id]}
+            <tr>
+              <td class="px-4 h-fit min-w-64 border-1">
+                {#if s.label}
+                  {s.label}
                 {:else}
-                  0
+                  <span>{s.shiftType}</span>
+                  <span>
+                    {fmtShift(s.start)} - {fmtShift(s.end)}
+                  </span>
                 {/if}
               </td>
-            {/each}
-          </tr>
+              {#each days as d}
+                <td class={["h-fit text-center border-1", { "bg-custom-holiday text-gray-100": d.isFree, "bg-gray-300 text-gray-800": d.isToday }]}>
+                  {#if shiftCounts[s.id] && shiftCounts[s.id][d.idx]}
+                    <span class="font-bold">
+                      {shiftCounts[s.id][d.idx]}
+                    </span>
+                  {:else}
+                    0
+                  {/if}
+                </td>
+              {/each}
+            </tr>
+          {/if}
         {/each}
       {/if}
     </tbody>
