@@ -270,7 +270,7 @@
         {#each employees as employee (employee.id)}
           {#if group.id === employee.groupId}
             <tr>
-              <td class="px-4 whitespace-nowrap h-fit border-1">
+              <td class="px-4 whitespace-nowrap h-fit min-w-64 border-1">
                 {employee.firstName}
                 {employee.lastName}
               </td>
