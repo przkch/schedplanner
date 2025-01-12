@@ -9,8 +9,6 @@ export const GET: APIRoute = async () => {
     start(controller) {
       const encoder = new TextEncoder();
 
-      controller.enqueue(encoder.encode("Connected to SSE"));
-
       eventsListener = () => {
         const data = "data: schedule modified\n\n";
         controller.enqueue(encoder.encode(data));
