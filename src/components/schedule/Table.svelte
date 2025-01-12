@@ -218,7 +218,7 @@
           return;
         }
 
-        if (!modifyScheduleElement.open) {
+        if (modifyScheduleElement.isConnected && !modifyScheduleElement.open) {
           modifyScheduleElement.showModal();
         }
       };
