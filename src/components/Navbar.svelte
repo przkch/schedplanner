@@ -1,10 +1,17 @@
 <script lang="ts">
   import TeamPicker from "@components/TeamPicker.svelte";
+  import UserIcon from "@components/UserIcon.svelte";
 
+  import type { Session } from "@auth/core/types";
   import * as m from "@paraglide/messages";
-
   import Icon from "@iconify/svelte";
   import { onMount } from "svelte";
+
+  interface Props {
+    session: Session;
+  }
+
+  const { session }: Props = $props();
 
   const links = [
     { href: "/teams", title: m.teams(), icon: "mdi:people" },
@@ -33,29 +40,30 @@
     <h1><button><a href="/">{m.navbar_title()}</a></button></h1>
     <TeamPicker />
   </div>
-  <ul class="hidden lg:flex flex-row gap-2">
-    {#each links as link}
-      <li>
-        <button>
-          <a href={link.href} class="flex flex-row items-center gap-2">
-            <Icon icon={link.icon} class="text-xl" />
-            <span>{link.title}</span>
-          </a>
-        </button>
-      </li>
-    {/each}
-  </ul>
+
   <button
-    class="inline-block lg:hidden"
     onclick={() => {
       const dialog = document.querySelector("dialog") as HTMLDialogElement;
       dialog.showModal();
     }}
   >
-    <Icon icon="mdi:menu" class="text-2xl" />
+    <UserIcon name={session?.user?.name} />
   </button>
-  <dialog class="lg:hidden mr-0 mt-10 rounded-xl p-4 w-[60vw] max-w-[300px]">
-    <div>
+
+  <dialog class="mr-0 mt-14 rounded-xl p-4 w-[60vw] max-w-[300px]">
+    <div class="flex flex-col gap-6">
+      <div class="flex flex-row gap-2 items-center justify-between">
+        <div class="flex flex-row gap-2 items-center">
+          <UserIcon name={session?.user?.name} />
+          <span>{session.user?.name}</span>
+        </div>
+        <button>
+          <a href="/api/auth/signout">
+            <Icon icon="mdi:logout" class="text-xl" />
+          </a>
+        </button>
+      </div>
+
       <ul class="flex flex-col gap-2">
         {#each links as link}
           <li>
