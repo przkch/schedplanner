@@ -8,7 +8,7 @@
   import type { Days } from "@lib/utils/date";
 
   import * as m from "@paraglide/messages";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import type { Action } from "svelte/action";
 
   interface Props {
@@ -30,6 +30,8 @@
   let shiftCounts = $state({});
 
   let days: Days[] = $state([]);
+
+  let scheduleEventSource: EventSource | null = null;
 
   interface Selectable {
     x: number;
@@ -225,6 +227,14 @@
     };
 
     scheduleTable.addEventListener("pointerdown", handlePointerDown);
+
+    if (!scheduleEventSource) {
+      scheduleEventSource = new EventSource("/api/events/schedule");
+
+      scheduleEventSource.onmessage = async () => {
+        await generateFullSchedule();
+      };
+    }
   });
 
   const addSchedule = async () => {

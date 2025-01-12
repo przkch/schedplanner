@@ -1,5 +1,6 @@
 import { db } from "@lib/database";
 import { schedule } from "@lib/database/schema";
+import { Emitter } from "@lib/events/schedule";
 
 import type { APIRoute } from "astro";
 import { and, eq, inArray } from "drizzle-orm";
@@ -24,6 +25,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       await db
         .delete(schedule)
         .where(and(inArray(schedule.employeeId, employeeId), eq(schedule.year, year), eq(schedule.month, month), inArray(schedule.day, day)));
+
+      Emitter.emit("scheduleModified");
 
       return new Response(null, { status: 204 });
     } else {
@@ -50,9 +53,11 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       await db.insert(schedule).values(insertData);
     }
 
+    Emitter.emit("scheduleModified");
+
     return new Response(null, { status: 200 });
   } catch (e) {
-    console.error();
+    console.error(e);
     return new Response(null, { status: 400 });
   }
 };
