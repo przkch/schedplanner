@@ -255,6 +255,8 @@
       dialog.close();
     }
   };
+
+  console.log(shifts && shiftCounts);
 </script>
 
 {#if !employees.length || !groups?.length}
@@ -330,7 +332,7 @@
           {/if}
         {/each}
       {/each}
-      {#if shifts && shiftCounts}
+      {#if shifts && Object.keys(shiftCounts).length}
         <TableHeaders {holidays} {year} {month} footer={true} />
         {#each shifts as s (s.id)}
           {#if shiftCounts[s.id]}
