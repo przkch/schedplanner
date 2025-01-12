@@ -237,6 +237,13 @@
     }
   });
 
+  onDestroy(() => {
+    if (scheduleEventSource) {
+      scheduleEventSource.close();
+      scheduleEventSource = null;
+    }
+  });
+
   const addSchedule = async () => {
     const dialog = document.querySelector("dialog#modify_schedule") as HTMLDialogElement;
     const form = dialog?.querySelector("form") as HTMLFormElement;
