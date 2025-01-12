@@ -4,10 +4,25 @@ import { team } from "@lib/database/schema";
 import { setLanguageTag } from "@paraglide/runtime";
 import type { AvailableLanguageTag } from "@paraglide/runtime";
 import { defineMiddleware } from "astro:middleware";
+import { getSession } from "auth-astro/server";
 import { eq } from "drizzle-orm";
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const isApiRoute = context.url.pathname.startsWith("/api");
+  const isApiAuthRoute = context.url.pathname.startsWith("/api/auth/");
+  const isApiRoute = context.url.pathname.startsWith("/api") && !isApiAuthRoute;
+  const session = await getSession(context.request);
+
+  if (!session && !isApiAuthRoute) {
+    if (isApiRoute) {
+      return new Response("Unauthorized", { status: 401, statusText: "Unauthorized" });
+    }
+
+    return context.redirect("/api/auth/signin");
+  }
+
+  if (!context.locals.session) {
+    context.locals.session = session;
+  }
 
   if (isApiRoute) return next();
 

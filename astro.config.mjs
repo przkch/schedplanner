@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 
 import node from "@astrojs/node";
 import tailwind from "@astrojs/tailwind";
@@ -9,9 +9,11 @@ import icon from "astro-icon";
 
 import svelte from "@astrojs/svelte";
 
+import auth from "auth-astro";
+
 export default defineConfig({
   output: "server",
-  integrations: [tailwind(), paraglide({ project: "./schedplanner.inlang", outdir: "./src/paraglide" }), icon(), svelte()],
+  integrations: [tailwind(), paraglide({ project: "./schedplanner.inlang", outdir: "./src/paraglide" }), icon(), svelte(), auth()],
 
   adapter: node({
     mode: "standalone",
@@ -26,6 +28,37 @@ export default defineConfig({
     plugins: [basicSsl()],
     server: {
       https: process.env.DEV,
+    },
+  },
+
+  env: {
+    schema: {
+      PSQL_CONN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+
+      AUTH_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      AUTH_TRUST_HOST: envField.boolean({
+        context: "server",
+        access: "secret",
+      }),
+
+      AUTH_AUTHENTIK_CLIENT_ID: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      AUTH_AUTHENTIK_CLIENT_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      AUTH_AUTHENTIK_ISSUER: envField.string({
+        context: "server",
+        access: "secret",
+      }),
     },
   },
 });
