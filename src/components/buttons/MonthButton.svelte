@@ -23,7 +23,7 @@
 <button
   {id}
   class={[
-    "bg-red-500 text-white text-sm p-2 sm:px-2 sm:py-1 rounded-full sm:rounded-xl hover:bg-opacity-75 transition-colors flex flex-row items-center gap-2",
+    "text-stone-900 dark:text-stone-100 bg-stone-200 dark:bg-stone-900 hover:bg-stone-300 dark:hover:bg-stone-700 text-sm p-2 sm:px-2 sm:py-1 rounded-full sm:rounded-xl transition-colors flex flex-row items-center gap-2",
     props.class,
   ]}
   onclick={() => {

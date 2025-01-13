@@ -60,7 +60,7 @@
   <span class="font-bold text-xl text-center">No custom holidays defined!</span>
 {:else}
   <table class="w-full text-sm text-left rtl:text-right">
-    <thead class="text-xs bg-gray-200">
+    <thead class="text-xs bg-stone-100 dark:bg-stone-900">
       <tr>
         <th class="px-6 py-3">
           <div class="flex flex-row gap-2 items-center">
@@ -80,7 +80,7 @@
 
     <tbody>
       {#each holidays as holiday (holiday.id)}
-        <tr class="even:bg-gray-100">
+        <tr class="even:bg-stone-200 dark:even:bg-stone-900">
           <td class="px-4">
             <form onsubmit={(e) => editHoliday(e, holiday.id)}>
               <input

@@ -10,7 +10,7 @@
 </script>
 
 {#if name}
-  <span class="size-10 rounded-full bg-gray-300 flex justify-center items-center">
+  <span class="size-10 rounded-full bg-stone-300 dark:bg-stone-700 flex justify-center items-center">
     {initials}
   </span>
 {/if}

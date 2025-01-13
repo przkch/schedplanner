@@ -11,7 +11,7 @@
   name="month"
   type="month"
   value={`${year}-${String(month).padStart(2, "0")}`}
-  class="px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-md"
+  class="px-4 py-2 text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900 border-stone-200 dark:border-stone-800 border rounded-md"
   onchange={(e) => {
     const target = e.currentTarget;
     const [year, month] = target.value.split("-");

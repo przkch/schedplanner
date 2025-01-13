@@ -14,7 +14,7 @@
 
 <div class={["flex justify-center sm:justify-end", props.class]}>
   <button
-    class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md enabled:hover:bg-gray-600 focus:outline-none enabled:focus:bg-gray-600 disabled:opacity-75"
+    class="px-8 py-2.5 leading-5 transition-colors duration-300 transform rounded-md text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900 border-stone-200 dark:border-stone-800 enabled:hover:bg-stone-600 focus:outline-none enabled:focus:bg-stone-600 disabled:opacity-75"
     type={props.type || "submit"}
     disabled={props.disabled}
     onclick={props.onclick}

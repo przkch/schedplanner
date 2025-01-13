@@ -19,7 +19,7 @@ const session = Astro.locals.session;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="text-stone-900 bg-stone-100 dark:text-stone-100 dark:bg-stone-800">
     <Navbar client:load="svelte" session={session} />
     <slot />
   </body>

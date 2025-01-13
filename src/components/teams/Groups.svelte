@@ -79,7 +79,7 @@
   {:else}
     <div class="rounded-xl">
       <table class="w-full text-sm text-left rtl:text-right">
-        <thead class="text-xs bg-gray-200">
+        <thead class="text-xs bg-stone-100 dark:bg-stone-900">
           <tr>
             <th class="px-6 py-3">{m.name()}</th>
             <th class="px-6 py-3">{m.actions()}</th>
@@ -87,7 +87,7 @@
         </thead>
         <tbody>
           {#each groups as group (group.id)}
-            <tr class="even:bg-gray-100">
+            <tr class="even:bg-stone-200 dark:even:bg-stone-900">
               <td class="px-6 py-4">
                 <form onsubmit={(e) => editGroup(e, group.id)} class="flex flex-row justify-between items-center gap-4">
                   <input

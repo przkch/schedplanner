@@ -18,7 +18,7 @@
 </script>
 
 <div class={["h-full flex flex-col", { "justify-end items-end": !props.label }]}>
-  <label for={id} class="text-gray-700">
+  <label for={id} class="text-stone-900 dark:text-stone-100">
     {props.label}
   </label>
   <input

@@ -35,7 +35,7 @@
   });
 </script>
 
-<div class="flex flex-row gap-4 items-center justify-between p-2 px-4 bg-gray-100">
+<div class="flex flex-row gap-4 items-center justify-between p-2 px-4 bg-stone-100 dark:bg-stone-900">
   <div class="flex flex-row items-center gap-4">
     <h1><button><a href="/">{m.navbar_title()}</a></button></h1>
     <TeamPicker />
@@ -50,7 +50,7 @@
     <UserIcon name={session?.user?.name} />
   </button>
 
-  <dialog class="mr-0 mt-14 rounded-xl p-4 w-[60vw] max-w-[300px]">
+  <dialog class="mr-0 mt-14 rounded-xl p-4 w-[60vw] max-w-[300px] text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900">
     <div class="flex flex-col gap-6">
       <div class="flex flex-row gap-2 items-center justify-between">
         <div class="flex flex-row gap-2 items-center">

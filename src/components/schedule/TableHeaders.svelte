@@ -17,7 +17,7 @@
 </script>
 
 <tr>
-  <td class="font-bold text-left px-4 border-1">
+  <td class="font-bold text-left px-4 border-1 dark:border-stone-700">
     {#if !footer}
       {m.employees()}
     {:else}
@@ -27,11 +27,11 @@
   {#each days as day}
     <td
       class={[
-        "text-center border-1",
+        "text-center border-1 dark:border-stone-600",
         {
           "bg-custom-holiday text-gray-100": day.isFree,
-          "bg-gray-300 text-gray-800": day.isToday,
-          "bg-gray-50 text-gray-800": !day.isFree && !day.isToday,
+          "bg-stone-300  dark:bg-stone-500": day.isToday,
+          "bg-stone-50 dark:bg-stone-700": !day.isFree && !day.isToday,
         },
       ]}
       title={day.customHolidayName}
@@ -42,5 +42,5 @@
     </td>
   {/each}
   {#if !footer}
-    <td class="px-2 border-1">{m.total_hours()}</td>{/if}
+    <td class="px-2 border-1 dark:border-stone-700">{m.total_hours()}</td>{/if}
 </tr>

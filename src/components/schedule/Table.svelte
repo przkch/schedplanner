@@ -1,4 +1,5 @@
 <script lang="ts">
+  import HtmlSelect from "@components/form/HTMLSelect.svelte";
   import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
   import TableHeaders from "@components/schedule/TableHeaders.svelte";
   import { group, holiday, shift } from "@lib/database/schema";
@@ -270,7 +271,7 @@
         {#each employees as employee (employee.id)}
           {#if group.id === employee.groupId}
             <tr>
-              <td class="px-4 whitespace-nowrap h-fit min-w-64 border-1">
+              <td class="px-4 whitespace-nowrap h-fit min-w-64 border-1 dark:border-stone-700">
                 {employee.firstName}
                 {employee.lastName}
               </td>
@@ -280,9 +281,9 @@
                     use:addSelectable
                     style="background-color: {fullSchedule[employee.id][d.idx].color}"
                     class={[
-                      "hover:bg-opacity-50 transition-colors border-1",
+                      "hover:bg-opacity-50 transition-colors border-1 dark:border-stone-700",
                       {
-                        "bg-gray-300 text-gray-800": !fullSchedule[employee.id][d.idx]?.color && d.isToday,
+                        "bg-stone-300 dark:bg-stone-800": !fullSchedule[employee.id][d.idx]?.color && d.isToday,
                         "bg-custom-holiday": !fullSchedule[employee.id][d.idx]?.color && d.isFree,
                       },
                     ]}
@@ -306,8 +307,8 @@
                   <td
                     use:addSelectable
                     class={[
-                      "hover:bg-opacity-50 transition-colors border-1",
-                      { "bg-gray-300 text-gray-800": d.isToday, "bg-custom-holiday": d.isFree },
+                      "hover:bg-opacity-50 transition-colors border-1 dark:border-stone-600",
+                      { "bg-gray-300 dark:bg-stone-500 ": d.isToday, "bg-custom-holiday": d.isFree },
                     ]}
                     data-employee={employee.id}
                     data-day={d.idx}
@@ -323,7 +324,7 @@
                   </td>
                 {/if}
               {/each}
-              <td class={["border-1 text-xs text-center", { "font-bold": totalHours[employee.id] > 0 }]}>
+              <td class={["border-1 text-xs text-center dark:border-stone-600", { "font-bold": totalHours[employee.id] > 0 }]}>
                 {totalHours[employee.id] ?? 0}
               </td>
             </tr>
@@ -335,7 +336,7 @@
         {#each shifts as s (s.id)}
           {#if shiftCounts[s.id]}
             <tr>
-              <td class="px-4 h-fit min-w-64 border-1">
+              <td class="px-4 h-fit min-w-64 border-1 dark:border-stone-600">
                 {#if s.label}
                   {s.label}
                 {:else}
@@ -346,7 +347,12 @@
                 {/if}
               </td>
               {#each days as d}
-                <td class={["h-fit text-center border-1", { "bg-custom-holiday text-gray-100": d.isFree, "bg-gray-300 text-gray-800": d.isToday }]}>
+                <td
+                  class={[
+                    "h-fit text-center border-1 dark:border-stone-600",
+                    { "bg-custom-holiday text-gray-100": d.isFree, "bg-gray-300  dark:bg-stone-500": d.isToday },
+                  ]}
+                >
                   {#if shiftCounts[s.id] && shiftCounts[s.id][d.idx]}
                     <span class="font-bold">
                       {shiftCounts[s.id][d.idx]}
@@ -364,11 +370,11 @@
   </table>
 
   {#if shifts}
-    <dialog id="modify_schedule" class="rounded-xl">
+    <dialog id="modify_schedule" class="rounded-xl text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900">
       <div class="p-4">
         <div class="flex flex-col gap-8">
           <form class="flex flex-col gap-4">
-            <select name="shift_id" class="bg-slate-200 px-4 py-2" required>
+            <HtmlSelect name="shift_id" required>
               <option value="-1">{m.none()}</option>
               {#each shifts as shift}
                 <option value={shift.id}>
@@ -379,7 +385,7 @@
                   {/if}
                 </option>
               {/each}
-            </select>
+            </HtmlSelect>
             <input name="employee_id" hidden />
             <input name="year" value={year} hidden />
             <input name="month" value={month} hidden />
@@ -406,6 +412,6 @@
 
 <style>
   :global(.intersected) {
-    background-color: theme("colors.gray.600") !important;
+    background-color: theme("colors.stone.500") !important;
   }
 </style>

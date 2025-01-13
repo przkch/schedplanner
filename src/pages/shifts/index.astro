@@ -43,7 +43,7 @@ const shifts = await db.select().from(shift).orderBy(shift.id);
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {shifts.map((shift) => {
               return (
-                <div class="flex flex-col justify-between gap-4 border-2 rounded-xl p-4">
+                <div class="flex flex-col justify-between gap-4 rounded-xl p-4 text-stone-900 dark:text-stone-100 bg-stone-200 dark:bg-stone-900">
                   <div class="flex flex-col gap-2">
                     <form method="POST" action="/api/shifts/update" class="flex flex-col gap-2">
                       <HTMLInput name="label" label={m.label()} type="text" value={shift.label!} onchange="this.form.submit()" />

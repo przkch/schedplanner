@@ -22,7 +22,7 @@
 </script>
 
 <div class={props.class}>
-  <label for={id} class="text-gray-700">{props.label}</label>
+  <label for={id} class="text-stone-900 dark:text-stone-100">{props.label}</label>
   <input
     {id}
     name={props.name}
@@ -33,6 +33,6 @@
     value={props.value}
     autocomplete={props.autocomplete}
     disabled={props.disabled}
-    class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring disabled:opacity-75"
+    class="block w-full px-4 py-2 text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900 border-stone-200 dark:border-stone-800 border rounded-md focus:outline-none disabled:opacity-75"
   />
 </div>
