@@ -255,8 +255,6 @@
       dialog.close();
     }
   };
-
-  console.log(shifts && shiftCounts);
 </script>
 
 {#if !employees.length || !groups?.length}
