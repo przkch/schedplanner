@@ -1,6 +1,6 @@
 ---
 import Subpage from "@layouts/Subpage.astro";
-
+import { Table, Row, Cell } from "@components/table";
 import { db } from "@lib/database";
 import { employee, team } from "@lib/database/schema";
 
@@ -38,46 +38,29 @@ const teams = await db
         teams.length === 0 ? (
           <span class="font-bold text-xl text-center">{m.no_teams()}</span>
         ) : (
-          <table class="w-full text-sm text-left rtl:text-right">
-            <thead class="text-xs bg-stone-100 dark:bg-stone-900">
-              <tr>
-                <th class="px-6 py-3">
+          <Table headers={[m.name(), m.employees_count(), m.actions()]}>
+            {teams.map((team) => (
+              <Row>
+                <Cell>
+                  <form method="POST" action={`/api/teams/${team.id}/rename`}>
+                    <input type="text" id="team_name" name="team_name" value={team.name} class="bg-transparent" />
+                    <input type="submit" hidden />
+                  </form>
+                </Cell>
+                <Cell>
+                  <span>{team.employeesCount}</span>
+                </Cell>
+                <Cell>
                   <div class="flex flex-row gap-2 items-center">
-                    <span>{m.name()}</span>
-                    <Icon name="mdi:edit" />
+                    <a href={`/teams/${team.id}`}>{m.edit()}</a>
+                    <form method="POST" action={`/api/teams/${team.id}/delete`}>
+                      <Remove />
+                    </form>
                   </div>
-                </th>
-                <th class="px-6 py-3">{m.employees_count()}</th>
-                <th class="px-6 py-3">{m.actions()}</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {teams.map((team) => {
-                return (
-                  <tr class="even:bg-stone-200 dark:even:bg-stone-900">
-                    <td class="px-4">
-                      <form method="POST" action={`/api/teams/${team.id}/rename`}>
-                        <input type="text" id="team_name" name="team_name" value={team.name} class="bg-transparent" />
-                        <input type="submit" hidden />
-                      </form>
-                    </td>
-                    <td class="px-4">
-                      <span>{team.employeesCount}</span>
-                    </td>
-                    <td class="px-4 py-2">
-                      <div class="flex flex-row gap-2 items-center">
-                        <a href={`/teams/${team.id}`}>{m.edit()}</a>
-                        <form method="POST" action={`/api/teams/${team.id}/delete`}>
-                          <Remove />
-                        </form>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </Cell>
+              </Row>
+            ))}
+          </Table>
         )
       }
     </div>

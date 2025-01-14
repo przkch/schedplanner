@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Input, Submit } from "@components/form";
+  import { Table, Row, Cell } from "@components/table";
   import Remove from "@components/buttons/Remove.svelte";
   import { group, team } from "@lib/database/schema";
 
@@ -76,38 +77,28 @@
   {:else if !groups?.length}
     <span class="font-bold text-xl text-center">{m.no_groups()}</span>
   {:else}
-    <div class="rounded-xl">
-      <table class="w-full text-sm text-left rtl:text-right">
-        <thead class="text-xs bg-stone-100 dark:bg-stone-900">
-          <tr>
-            <th class="px-6 py-3">{m.name()}</th>
-            <th class="px-6 py-3">{m.actions()}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each groups as group (group.id)}
-            <tr class="even:bg-stone-200 dark:even:bg-stone-900">
-              <td class="px-6 py-4">
-                <form onsubmit={(e) => editGroup(e, group.id)} class="flex flex-row justify-between items-center gap-4">
-                  <input
-                    type="text"
-                    name="group_name"
-                    value={group.name}
-                    class="bg-transparent w-full"
-                    autocomplete="off"
-                    onchange={(e) => (e.currentTarget.parentElement as HTMLFormElement).requestSubmit()}
-                  />
-                </form>
-              </td>
-              <td class="px-6 py-4">
-                <form onsubmit={(e) => removeGroup(e, group.id)}>
-                  <Remove />
-                </form>
-              </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
+    <Table headers={[m.name(), m.actions()]}>
+      {#each groups as group (group.id)}
+        <Row>
+          <Cell>
+            <form onsubmit={(e) => editGroup(e, group.id)} class="flex flex-row justify-between items-center gap-4">
+              <input
+                type="text"
+                name="group_name"
+                value={group.name}
+                class="bg-transparent w-full"
+                autocomplete="off"
+                onchange={(e) => (e.currentTarget.parentElement as HTMLFormElement).requestSubmit()}
+              />
+            </form>
+          </Cell>
+          <Cell>
+            <form onsubmit={(e) => removeGroup(e, group.id)}>
+              <Remove />
+            </form>
+          </Cell>
+        </Row>
+      {/each}
+    </Table>
   {/if}
 </div>

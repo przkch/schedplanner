@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { holiday } from "@lib/database/schema";
   import Remove from "@components/buttons/Remove.svelte";
   import { Input, Submit } from "@components/form";
+  import { Table, Row, Cell } from "@components/table";
+  import { holiday } from "@lib/database/schema";
 
   import Icon from "@iconify/svelte";
   import * as m from "@paraglide/messages";
@@ -58,59 +59,37 @@
 {:else if !holidays.length}
   <span class="font-bold text-xl text-center">No custom holidays defined!</span>
 {:else}
-  <table class="w-full text-sm text-left rtl:text-right">
-    <thead class="text-xs bg-stone-100 dark:bg-stone-900">
-      <tr>
-        <th class="px-6 py-3">
-          <div class="flex flex-row gap-2 items-center">
-            <span>{m.name()}</span>
-            <Icon icon="mdi:edit" />
-          </div>
-        </th>
-        <th class="px-6 py-3">
-          <div class="flex flex-row gap-2 items-center">
-            <span>{m.date()}</span>
-            <Icon icon="mdi:edit" />
-          </div>
-        </th>
-        <th class="px-6 py-3">{m.actions()}</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {#each holidays as holiday (holiday.id)}
-        <tr class="even:bg-stone-200 dark:even:bg-stone-900">
-          <td class="px-4">
-            <form onsubmit={(e) => editHoliday(e, holiday.id)}>
-              <input
-                type="text"
-                name="name"
-                value={holiday.name}
-                class="bg-transparent"
-                onchange={(e) => (e.currentTarget.parentElement as HTMLFormElement).requestSubmit()}
-              />
-            </form>
-          </td>
-          <td class="px-4">
-            <form onsubmit={(e) => editHoliday(e, holiday.id)}>
-              <input
-                type="date"
-                name="date"
-                value={holiday.date}
-                class="bg-transparent"
-                onchange={(e) => (e.currentTarget.parentElement as HTMLFormElement).requestSubmit()}
-              />
-            </form>
-          </td>
-          <td class="px-4 py-2">
-            <div class="flex flex-row gap-2 items-center">
-              <form onsubmit={(e) => removeHoliday(e, holiday.id)}>
-                <Remove />
-              </form>
-            </div>
-          </td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
+  <Table headers={[m.name(), m.date(), m.actions()]}>
+    {#each holidays as holiday (holiday.id)}
+      <Row>
+        <Cell>
+          <form onsubmit={(e) => editHoliday(e, holiday.id)}>
+            <input
+              type="text"
+              name="name"
+              value={holiday.name}
+              class="bg-transparent"
+              onchange={(e) => (e.currentTarget.parentElement as HTMLFormElement).requestSubmit()}
+            />
+          </form>
+        </Cell>
+        <Cell>
+          <form onsubmit={(e) => editHoliday(e, holiday.id)}>
+            <input
+              type="date"
+              name="date"
+              value={holiday.date}
+              class="bg-transparent"
+              onchange={(e) => (e.currentTarget.parentElement as HTMLFormElement).requestSubmit()}
+            />
+          </form>
+        </Cell>
+        <Cell>
+          <form onsubmit={(e) => removeHoliday(e, holiday.id)}>
+            <Remove />
+          </form>
+        </Cell>
+      </Row>
+    {/each}
+  </Table>
 {/if}
