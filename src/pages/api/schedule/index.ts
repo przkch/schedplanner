@@ -26,7 +26,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
         .delete(schedule)
         .where(and(inArray(schedule.employeeId, employeeId), eq(schedule.year, year), eq(schedule.month, month), inArray(schedule.day, day)));
 
-      Emitter.emit("scheduleModified");
+      Emitter.emit("scheduleModified", { year: year, month: month });
 
       return new Response(null, { status: 204 });
     } else {
@@ -53,7 +53,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       await db.insert(schedule).values(insertData);
     }
 
-    Emitter.emit("scheduleModified");
+    Emitter.emit("scheduleModified", { year: year, month: month });
 
     return new Response(null, { status: 200 });
   } catch (e) {

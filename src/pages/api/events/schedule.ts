@@ -1,4 +1,5 @@
 import { Emitter } from "@lib/events/schedule";
+import type { scheduleModifiedEvent } from "@lib/events/schedule";
 
 import type { APIRoute } from "astro";
 
@@ -9,9 +10,8 @@ export const GET: APIRoute = async () => {
     start(controller) {
       const encoder = new TextEncoder();
 
-      eventsListener = () => {
-        const data = "data: schedule modified\n\n";
-        controller.enqueue(encoder.encode(data));
+      eventsListener = (data: scheduleModifiedEvent) => {
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
       };
 
       Emitter.removeListener("scheduleModified", eventsListener);

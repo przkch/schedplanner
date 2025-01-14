@@ -4,6 +4,7 @@
   import TableHeaders from "@components/schedule/TableHeaders.svelte";
   import { group, holiday, shift } from "@lib/database/schema";
   import type { EmployeesSchedule, employeeV } from "@lib/database/schema";
+  import type { scheduleModifiedEvent } from "@lib/events/schedule";
   import { fmtShift } from "@lib/utils";
   import { getDays } from "@lib/utils/date";
   import type { Days } from "@lib/utils/date";
@@ -232,7 +233,11 @@
     if (!scheduleEventSource) {
       scheduleEventSource = new EventSource("/api/events/schedule");
 
-      scheduleEventSource.onmessage = async () => {
+      scheduleEventSource.onmessage = async (event) => {
+        const data = JSON.parse(event.data) as scheduleModifiedEvent;
+
+        if (data.year !== year || data.month !== month) return;
+
         await generateFullSchedule();
       };
     }
