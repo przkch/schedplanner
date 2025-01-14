@@ -25,3 +25,10 @@
 <dialog use:handleBackdropClick class={[`text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900 rounded-xl`, className]} {...rest}>
   {@render children?.()}
 </dialog>
+
+<style>
+  dialog::backdrop {
+    background-color: theme("colors.stone.900" / 75%);
+    backdrop-filter: blur(4px);
+  }
+</style>
