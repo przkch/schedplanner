@@ -1,6 +1,5 @@
 <script lang="ts">
-  import HtmlSelect from "@components/form/HTMLSelect.svelte";
-  import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
+  import { Select, Submit } from "@components/form";
   import Dialog from "@components/misc/Dialog.svelte";
   import TableHeaders from "@components/schedule/TableHeaders.svelte";
   import { group, holiday, shift } from "@lib/database/schema";
@@ -385,7 +384,7 @@
       <div class="p-4">
         <div class="flex flex-col gap-8">
           <form class="flex flex-col gap-4">
-            <HtmlSelect name="shift_id" required>
+            <Select name="shift_id" required>
               <option value="-1">{m.none()}</option>
               {#each shifts as shift}
                 <option value={shift.id}>
@@ -396,23 +395,24 @@
                   {/if}
                 </option>
               {/each}
-            </HtmlSelect>
+            </Select>
             <input name="employee_id" hidden />
             <input name="year" value={year} hidden />
             <input name="month" value={month} hidden />
             <input name="day" hidden />
 
             <div class="flex flex-row justify-between gap-4">
-              <HTMLSubmit
-                label={m.cancel()}
+              <Submit
                 type="button"
                 onclick={() => {
                   const dialog = document.querySelector("dialog#modify_schedule") as HTMLDialogElement;
 
                   dialog.close();
                 }}
-              />
-              <HTMLSubmit label={m.save()} class="col-span-2" type="button" onclick={addSchedule} />
+              >
+                {m.cancel()}
+              </Submit>
+              <Submit class="col-span-2" type="button" onclick={addSchedule} />
             </div>
           </form>
         </div>

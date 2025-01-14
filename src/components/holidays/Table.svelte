@@ -1,8 +1,7 @@
 <script lang="ts">
   import { holiday } from "@lib/database/schema";
   import Remove from "@components/buttons/Remove.svelte";
-  import HTMLInput from "@components/form/HTMLInput.svelte";
-  import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
+  import { Input, Submit } from "@components/form";
 
   import Icon from "@iconify/svelte";
   import * as m from "@paraglide/messages";
@@ -49,9 +48,9 @@
 </script>
 
 <form id="add_holiday" class="flex flex-col sm:flex-row gap-2 items-center" onsubmit={addHoliday}>
-  <HTMLInput name="name" label={m.name()} type="text" class="w-full" />
-  <HTMLInput name="date" label={m.date()} type="date" required class="w-full sm:w-fit" />
-  <HTMLSubmit label={m.add()} class="self-end" type="submit" />
+  <Input name="name" label={m.name()} type="text" class="w-full" />
+  <Input name="date" label={m.date()} type="date" required class="w-full sm:w-fit" />
+  <Submit class="self-end" />
 </form>
 
 {#if !fetched}

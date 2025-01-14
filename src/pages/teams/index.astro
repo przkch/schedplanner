@@ -5,8 +5,7 @@ import { db } from "@lib/database";
 import { employee, team } from "@lib/database/schema";
 
 import Remove from "@components/buttons/Remove.svelte";
-import HTMLInput from "@components/form/HTMLInput.svelte";
-import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
+import { Input, Submit } from "@components/form";
 
 import { count, eq } from "drizzle-orm";
 import * as m from "@paraglide/messages";
@@ -29,8 +28,10 @@ const teams = await db
     <div class="flex flex-col gap-4">
       <h3 class="font-bold text-3xl">{m.teams()}</h3>
       <form method="POST" action="/api/teams" class="flex flex-col sm:flex-row gap-2">
-        <HTMLInput name="name" placeholder={m.name()} type="text" required class="w-full" />
-        <HTMLSubmit label={m.add()} class="self-end" />
+        <Input name="name" placeholder={m.name()} type="text" required class="w-full" />
+        <Submit class="self-end">
+          {m.add()}
+        </Submit>
       </form>
 
       {

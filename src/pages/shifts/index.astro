@@ -5,10 +5,7 @@ import { db } from "@lib/database";
 import { shift, shiftTypes } from "@lib/database/schema";
 
 import Remove from "@components/buttons/Remove.svelte";
-import ColorPicker from "@components/form/ColorPicker.svelte";
-import HTMLInput from "@components/form/HTMLInput.svelte";
-import HTMLSelect from "@components/form/HTMLSelect.svelte";
-import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
+import { ColorPicker, Input, Select, Submit } from "@components/form/";
 
 import * as m from "@paraglide/messages";
 
@@ -20,19 +17,19 @@ const shifts = await db.select().from(shift).orderBy(shift.id);
     <h3 class="font-bold text-3xl">{m.add_shift()}:</h3>
     <form method="POST" action="/api/shifts" class="flex flex-col gap-8">
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 items-center">
-        <HTMLInput name="label" label={m.label()} type="text" class="sm:col-span-2" />
-        <HTMLSelect name="shift_type" label={m.shift_type()}>
+        <Input name="label" label={m.label()} type="text" class="sm:col-span-2" />
+        <Select name="shift_type" label={m.shift_type()}>
           {
             shiftTypes.enumValues.map((shiftType) => {
               return <option value={shiftType}>{shiftType}</option>;
             })
           }
-        </HTMLSelect>
-        <HTMLInput name="start" label={m.shift_start()} type="time" required />
-        <HTMLInput name="end" label={m.shift_end()} type="time" required />
+        </Select>
+        <Input name="start" label={m.shift_start()} type="time" required />
+        <Input name="end" label={m.shift_end()} type="time" required />
         <ColorPicker label={m.color()} value="#ffffff" />
       </div>
-      <HTMLSubmit label={m.add()} class="col-span-2" />
+      <Submit label={m.add()} class="col-span-2" />
     </form>
 
     {
@@ -46,8 +43,8 @@ const shifts = await db.select().from(shift).orderBy(shift.id);
                 <div class="flex flex-col justify-between gap-4 rounded-xl p-4 text-stone-900 dark:text-stone-100 bg-stone-200 dark:bg-stone-900">
                   <div class="flex flex-col gap-2">
                     <form method="POST" action="/api/shifts/update" class="flex flex-col gap-2">
-                      <HTMLInput name="label" label={m.label()} type="text" value={shift.label!} onchange="this.form.submit()" />
-                      <HTMLSelect name="shift_type" label={m.shift_type()}>
+                      <Input name="label" label={m.label()} type="text" value={shift.label!} onchange="this.form.submit()" />
+                      <Select name="shift_type" label={m.shift_type()}>
                         {shiftTypes.enumValues.map((shiftType) => {
                           return (
                             <option value={shiftType} selected={shift.shiftType == shiftType}>
@@ -55,9 +52,9 @@ const shifts = await db.select().from(shift).orderBy(shift.id);
                             </option>
                           );
                         })}
-                      </HTMLSelect>
-                      <HTMLInput name="start" label={m.shift_start()} type="time" value={shift.start} onchange="this.form.submit()" />
-                      <HTMLInput name="end" label={m.shift_end()} type="time" value={shift.end} onchange="this.form.submit()" />
+                      </Select>
+                      <Input name="start" label={m.shift_start()} type="time" value={shift.start} onchange="this.form.submit()" />
+                      <Input name="end" label={m.shift_end()} type="time" value={shift.end} onchange="this.form.submit()" />
                       <ColorPicker label={m.color()} value={shift.color!} onchange="this.form.submit()" />
                       <input name="shift_id" value={shift.id} hidden />
                       <input type="submit" hidden />

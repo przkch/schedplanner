@@ -42,5 +42,6 @@
     </td>
   {/each}
   {#if !footer}
-    <td class="px-2 border-1 dark:border-stone-700">{m.total_hours()}</td>{/if}
+    <td class="px-2 border-1 dark:border-stone-700">{m.total_hours()}</td>
+  {/if}
 </tr>

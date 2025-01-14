@@ -1,6 +1,5 @@
 <script lang="ts">
-  import HTMLInput from "@components/form/HTMLInput.svelte";
-  import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
+  import { Input, Submit } from "@components/form";
   import Remove from "@components/buttons/Remove.svelte";
   import { group, team } from "@lib/database/schema";
 
@@ -69,8 +68,8 @@
   </h3>
   <h4 class="font-bold text-xl">{m.groups()}</h4>
   <form onsubmit={addGroup} class="flex flex-row gap-2">
-    <HTMLInput name="name" placeholder={m.name()} type="text" required class="w-full" />
-    <HTMLSubmit label={m.add()} />
+    <Input name="name" placeholder={m.name()} type="text" required class="w-full" />
+    <Submit />
   </form>
   {#if !fetched}
     <p class="text-center">Loading...</p>

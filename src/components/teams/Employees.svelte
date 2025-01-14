@@ -1,7 +1,5 @@
 <script lang="ts">
-  import HTMLInput from "@components/form/HTMLInput.svelte";
-  import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
-  import HTMLSelect from "@components/form/HTMLSelect.svelte";
+  import { Input, Submit, Select } from "@components/form";
   import Remove from "@components/buttons/Remove.svelte";
   import { group, team } from "@lib/database/schema";
   import type { employeeV } from "@lib/database/schema";
@@ -77,16 +75,16 @@
   {:else}
     <form onsubmit={addEmployee} class="flex flex-row gap-2">
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 w-full">
-        <HTMLInput name="first_name" placeholder={m.first_name()} type="text" required />
-        <HTMLInput name="last_name" placeholder={m.last_name()} type="text" required />
+        <Input name="first_name" placeholder={m.first_name()} type="text" required />
+        <Input name="last_name" placeholder={m.last_name()} type="text" required />
 
-        <HTMLSelect name="group_id" required>
+        <Select name="group_id" required>
           {#each groups as group (group.id)}
             <option value={group.id}>{group.name}</option>;
           {/each}
-        </HTMLSelect>
+        </Select>
       </div>
-      <HTMLSubmit label={m.add()} disabled={groups.length === 0} />
+      <Submit disabled={groups.length === 0} />
     </form>
   {/if}
 
