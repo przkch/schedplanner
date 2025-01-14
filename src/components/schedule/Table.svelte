@@ -293,7 +293,12 @@
                       ? `Shift ${fullSchedule[employee.id][d.idx].label}\n${fullSchedule[employee.id][d.idx].start} - ${fullSchedule[employee.id][d.idx].end}\n${fullSchedule[employee.id][d.idx].shiftType}`
                       : "Click to add shift"}
                   >
-                    <button use:addSelectable class="flex flex-col items-center justify-center size-8" data-employee={employee.id} data-day={d.idx}>
+                    <button
+                      use:addSelectable
+                      class="flex flex-col items-center justify-center size-8 text-stone-900"
+                      data-employee={employee.id}
+                      data-day={d.idx}
+                    >
                       {#if fullSchedule[employee.id][d.idx]?.label}
                         {fullSchedule[employee.id][d.idx].label}
                       {:else if fullSchedule[employee.id][d.idx]?.start && fullSchedule[employee.id][d.idx]?.end}
