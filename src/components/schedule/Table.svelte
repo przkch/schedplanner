@@ -1,6 +1,7 @@
 <script lang="ts">
   import HtmlSelect from "@components/form/HTMLSelect.svelte";
   import HTMLSubmit from "@components/form/HTMLSubmit.svelte";
+  import Dialog from "@components/misc/Dialog.svelte";
   import TableHeaders from "@components/schedule/TableHeaders.svelte";
   import { group, holiday, shift } from "@lib/database/schema";
   import type { EmployeesSchedule, employeeV } from "@lib/database/schema";
@@ -380,7 +381,7 @@
   </table>
 
   {#if shifts}
-    <dialog id="modify_schedule" class="rounded-xl text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900">
+    <Dialog id="modify_schedule">
       <div class="p-4">
         <div class="flex flex-col gap-8">
           <form class="flex flex-col gap-4">
@@ -416,7 +417,7 @@
           </form>
         </div>
       </div>
-    </dialog>
+    </Dialog>
   {/if}
 {/if}
 

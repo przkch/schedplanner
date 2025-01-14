@@ -1,11 +1,11 @@
 <script lang="ts">
   import TeamPicker from "@components/TeamPicker.svelte";
   import UserIcon from "@components/UserIcon.svelte";
+  import Dialog from "@components/misc/Dialog.svelte";
 
   import type { Session } from "@auth/core/types";
   import * as m from "@paraglide/messages";
   import Icon from "@iconify/svelte";
-  import { onMount } from "svelte";
 
   interface Props {
     session: Session;
@@ -18,21 +18,6 @@
     { href: "/shifts", title: m.shifts(), icon: "mdi:clock" },
     { href: "/holidays", title: m.holidays(), icon: "mdi:calendar-edit" },
   ];
-
-  onMount(() => {
-    const dialog = document.querySelector("dialog") as HTMLDialogElement;
-
-    const onDialogClick = (event: MouseEvent) => {
-      const rect = dialog.getBoundingClientRect();
-
-      const isInDialog =
-        rect.top <= event.clientY && event.clientY <= rect.top + rect.height && rect.left <= event.clientX && event.clientX <= rect.left + rect.width;
-
-      if (!isInDialog) dialog.close();
-    };
-
-    dialog.addEventListener("click", onDialogClick);
-  });
 </script>
 
 <div class="flex flex-row gap-4 items-center justify-between p-2 px-4 bg-stone-100 dark:bg-stone-900">
@@ -52,7 +37,7 @@
     {/if}
   </button>
 
-  <dialog class="mr-0 mt-14 rounded-xl p-4 w-[60vw] max-w-[300px] text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900">
+  <Dialog class="mr-0 mt-14 rounded-xl p-4 w-[60vw] max-w-[300px]">
     <div class="flex flex-col gap-6">
       <div class="flex flex-row gap-2 items-center justify-between">
         <div class="flex flex-row gap-2 items-center">
@@ -81,5 +66,5 @@
         {/each}
       </ul>
     </div>
-  </dialog>
+  </Dialog>
 </div>
