@@ -7,7 +7,12 @@ import { defineMiddleware } from "astro:middleware";
 import { getSession } from "auth-astro/server";
 import { eq } from "drizzle-orm";
 
+const publicRoutes = ["/favicon.ico"];
 export const onRequest = defineMiddleware(async (context, next) => {
+  const isPublicRoute = publicRoutes.includes(context.url.pathname);
+
+  if (isPublicRoute) return next();
+
   const isApiAuthRoute = context.url.pathname.startsWith("/api/auth/");
   const isApiRoute = context.url.pathname.startsWith("/api") && !isApiAuthRoute;
   const session = await getSession(context.request);
