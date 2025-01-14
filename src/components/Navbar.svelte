@@ -47,15 +47,19 @@
       dialog.showModal();
     }}
   >
-    <UserIcon name={session?.user?.name} />
+    {#if session}
+      <UserIcon name={session?.user?.name} />
+    {/if}
   </button>
 
   <dialog class="mr-0 mt-14 rounded-xl p-4 w-[60vw] max-w-[300px] text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900">
     <div class="flex flex-col gap-6">
       <div class="flex flex-row gap-2 items-center justify-between">
         <div class="flex flex-row gap-2 items-center">
-          <UserIcon name={session?.user?.name} />
-          <span>{session.user?.name}</span>
+          {#if session}
+            <UserIcon name={session?.user?.name} />
+            <span>{session.user?.name}</span>
+          {/if}
         </div>
         <button>
           <a href="/api/auth/signout">
