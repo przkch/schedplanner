@@ -20,7 +20,7 @@
   ];
 </script>
 
-<div class="flex flex-row gap-4 items-center justify-between p-2 px-4 bg-stone-100 dark:bg-stone-900">
+<nav class="flex flex-row gap-4 items-center justify-between p-2 px-4 bg-stone-100 dark:bg-stone-900">
   <div class="flex flex-row items-center gap-4">
     <h1><button><a href="/">{m.navbar_title()}</a></button></h1>
     <TeamPicker />
@@ -67,4 +67,4 @@
       </ul>
     </div>
   </Dialog>
-</div>
+</nav>

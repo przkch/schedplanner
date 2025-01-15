@@ -1,11 +1,13 @@
 ---
 import Subpage from "@layouts/Subpage.astro";
 
+import Remove from "@components/buttons/Remove.svelte";
+
 import { db } from "@lib/database";
 import { shift, shiftTypes } from "@lib/database/schema";
 
-import Remove from "@components/buttons/Remove.svelte";
-import { ColorPicker, Input, Select, Submit } from "@components/form/";
+import { Button } from "@przkch/components/button";
+import { ColorPicker, Input, Select } from "@przkch/components/form";
 
 import * as m from "@paraglide/messages";
 
@@ -29,7 +31,7 @@ const shifts = await db.select().from(shift).orderBy(shift.id);
         <Input name="end" label={m.shift_end()} type="time" required />
         <ColorPicker label={m.color()} value="#ffffff" />
       </div>
-      <Submit label={m.add()} class="col-span-2" />
+      <Button class="col-span-2">{m.add()}</Button>
     </form>
 
     {
