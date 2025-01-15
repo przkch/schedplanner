@@ -1,15 +1,17 @@
 ---
 import Subpage from "@layouts/Subpage.astro";
-import { Table, Row, Cell } from "@components/table";
+
+import Remove from "@components/buttons/Remove.svelte";
+
 import { db } from "@lib/database";
 import { employee, team } from "@lib/database/schema";
 
-import Remove from "@components/buttons/Remove.svelte";
-import { Input, Submit } from "@components/form";
+import { Button } from "@przkch/components/button";
+import { Table, Row, Cell } from "@przkch/components/table";
+import { Input } from "@przkch/components/form";
 
 import { count, eq } from "drizzle-orm";
 import * as m from "@paraglide/messages";
-import { Icon } from "astro-icon/components";
 
 const teams = await db
   .select({
@@ -29,9 +31,9 @@ const teams = await db
       <h3 class="font-bold text-3xl">{m.teams()}</h3>
       <form method="POST" action="/api/teams" class="flex flex-col sm:flex-row gap-2">
         <Input name="name" placeholder={m.name()} type="text" required class="w-full" />
-        <Submit class="self-end">
+        <Button class="self-end">
           {m.add()}
-        </Submit>
+        </Button>
       </form>
 
       {

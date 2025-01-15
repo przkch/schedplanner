@@ -1,8 +1,11 @@
 <script lang="ts">
-  import { Input, Submit } from "@components/form";
-  import { Table, Row, Cell } from "@components/table";
   import Remove from "@components/buttons/Remove.svelte";
+
   import { group, team } from "@lib/database/schema";
+
+  import { Button } from "@przkch/components/button";
+  import { Input } from "@przkch/components/form";
+  import { Table, Row, Cell } from "@przkch/components/table";
 
   import * as m from "@paraglide/messages";
   import { onMount } from "svelte";
@@ -70,7 +73,7 @@
   <h4 class="font-bold text-xl">{m.groups()}</h4>
   <form onsubmit={addGroup} class="flex flex-row gap-2">
     <Input name="name" placeholder={m.name()} type="text" required class="w-full" />
-    <Submit />
+    <Button />
   </form>
   {#if !fetched}
     <p class="text-center">Loading...</p>

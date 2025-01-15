@@ -1,10 +1,12 @@
 <script lang="ts">
   import Remove from "@components/buttons/Remove.svelte";
-  import { Input, Submit } from "@components/form";
-  import { Table, Row, Cell } from "@components/table";
+
   import { holiday } from "@lib/database/schema";
 
-  import Icon from "@iconify/svelte";
+  import { Button } from "@przkch/components/button";
+  import { Input } from "@przkch/components/form";
+  import { Table, Row, Cell } from "@przkch/components/table";
+
   import * as m from "@paraglide/messages";
   import { onMount } from "svelte";
 
@@ -51,7 +53,7 @@
 <form id="add_holiday" class="flex flex-col sm:flex-row gap-2 items-center" onsubmit={addHoliday}>
   <Input name="name" label={m.name()} type="text" class="w-full" />
   <Input name="date" label={m.date()} type="date" required class="w-full sm:w-fit" />
-  <Submit class="self-end" />
+  <Button class="self-end" />
 </form>
 
 {#if !fetched}

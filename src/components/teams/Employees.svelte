@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { Input, Submit, Select } from "@components/form";
-  import { Table, Row, Cell } from "@components/table";
   import Remove from "@components/buttons/Remove.svelte";
+
   import { group, team } from "@lib/database/schema";
   import type { employeeV } from "@lib/database/schema";
+
+  import { Button } from "@przkch/components/button";
+  import { Input, Select } from "@przkch/components/form";
+  import { Table, Row, Cell } from "@przkch/components/table";
 
   import * as m from "@paraglide/messages";
   import { onMount } from "svelte";
@@ -85,7 +88,7 @@
           {/each}
         </Select>
       </div>
-      <Submit disabled={groups.length === 0} />
+      <Button disabled={groups.length === 0} />
     </form>
   {/if}
 
