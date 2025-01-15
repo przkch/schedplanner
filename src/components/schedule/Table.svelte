@@ -266,159 +266,161 @@
 {#if !employees.length || !groups?.length}
   <div class="text-center">{m.no_employees()}</div>
 {:else}
-  <table class="table-auto border-collapse text-sm">
-    <tbody>
-      <TableHeaders {holidays} {year} {month} />
-      {#each groups as group (group.id)}
-        <tr>
-          <td class="font-bold uppercase text-center">{group.name}</td>
-        </tr>
-        {#each employees as employee (employee.id)}
-          {#if group.id === employee.groupId}
-            <tr>
-              <td class="px-4 whitespace-nowrap h-fit min-w-64 border-1 dark:border-stone-700">
-                {employee.firstName}
-                {employee.lastName}
-              </td>
-              {#each days as d}
-                {#if employee.id in fullSchedule && d.idx in fullSchedule[employee.id]}
-                  <td
-                    use:addSelectable
-                    style="background-color: {fullSchedule[employee.id][d.idx].color}"
-                    class={[
-                      "hover:bg-opacity-50 transition-colors border-1 dark:border-stone-700",
-                      {
-                        "bg-stone-300 dark:bg-stone-800": !fullSchedule[employee.id][d.idx]?.color && d.isToday,
-                        "bg-custom-holiday": !fullSchedule[employee.id][d.idx]?.color && d.isFree,
-                      },
-                    ]}
-                    data-employee={employee.id}
-                    data-day={d.idx}
-                    title={fullSchedule[employee.id][d.idx]?.label
-                      ? `Shift ${fullSchedule[employee.id][d.idx].label}\n${fullSchedule[employee.id][d.idx].start} - ${fullSchedule[employee.id][d.idx].end}\n${fullSchedule[employee.id][d.idx].shiftType}`
-                      : "Click to add shift"}
-                  >
-                    <button
+  <div class="w-screen overflow-x-auto">
+    <table class="table-auto border-collapse text-sm">
+      <tbody>
+        <TableHeaders {holidays} {year} {month} />
+        {#each groups as group (group.id)}
+          <tr>
+            <td class="font-bold uppercase text-center">{group.name}</td>
+          </tr>
+          {#each employees as employee (employee.id)}
+            {#if group.id === employee.groupId}
+              <tr>
+                <td class="px-4 whitespace-nowrap h-fit min-w-64 border-1 dark:border-stone-700">
+                  {employee.firstName}
+                  {employee.lastName}
+                </td>
+                {#each days as d}
+                  {#if employee.id in fullSchedule && d.idx in fullSchedule[employee.id]}
+                    <td
                       use:addSelectable
-                      class="flex flex-col items-center justify-center size-8 text-stone-900"
+                      style="background-color: {fullSchedule[employee.id][d.idx].color}"
+                      class={[
+                        "hover:bg-opacity-50 transition-colors border-1 dark:border-stone-700",
+                        {
+                          "bg-stone-300 dark:bg-stone-800": !fullSchedule[employee.id][d.idx]?.color && d.isToday,
+                          "bg-custom-holiday": !fullSchedule[employee.id][d.idx]?.color && d.isFree,
+                        },
+                      ]}
                       data-employee={employee.id}
                       data-day={d.idx}
+                      title={fullSchedule[employee.id][d.idx]?.label
+                        ? `Shift ${fullSchedule[employee.id][d.idx].label}\n${fullSchedule[employee.id][d.idx].start} - ${fullSchedule[employee.id][d.idx].end}\n${fullSchedule[employee.id][d.idx].shiftType}`
+                        : "Click to add shift"}
                     >
-                      {#if fullSchedule[employee.id][d.idx]?.label}
-                        {fullSchedule[employee.id][d.idx].label}
-                      {:else if fullSchedule[employee.id][d.idx]?.start && fullSchedule[employee.id][d.idx]?.end}
-                        {fullSchedule[employee.id][d.idx].start}
-                        <br />
-                        {fullSchedule[employee.id][d.idx].end}
-                      {/if}
-                    </button>
-                  </td>
-                {:else}
-                  <td
-                    use:addSelectable
-                    class={[
-                      "hover:bg-opacity-50 transition-colors border-1 dark:border-stone-600",
-                      { "bg-gray-300 dark:bg-stone-500 ": d.isToday, "bg-custom-holiday": d.isFree },
-                    ]}
-                    data-employee={employee.id}
-                    data-day={d.idx}
-                  >
-                    <button
-                      use:addSelectable
-                      class="flex flex-col items-center justify-center size-8"
-                      data-employee={employee.id}
-                      data-day={d.idx}
-                      aria-label="Add schedule"
-                    >
-                    </button>
-                  </td>
-                {/if}
-              {/each}
-              <td class={["border-1 text-xs text-center dark:border-stone-600", { "font-bold": totalHours[employee.id] > 0 }]}>
-                {totalHours[employee.id] ?? 0}
-              </td>
-            </tr>
-          {/if}
-        {/each}
-      {/each}
-      {#if shifts && Object.keys(shiftCounts).length}
-        <TableHeaders {holidays} {year} {month} footer={true} />
-        {#each shifts as s (s.id)}
-          {#if shiftCounts[s.id]}
-            <tr>
-              <td class="px-4 h-fit min-w-64 border-1 dark:border-stone-600">
-                {#if s.label}
-                  {s.label}
-                {:else}
-                  <span>{s.shiftType}</span>
-                  <span>
-                    {fmtShift(s.start)} - {fmtShift(s.end)}
-                  </span>
-                {/if}
-              </td>
-              {#each days as d}
-                <td
-                  class={[
-                    "h-fit text-center border-1 dark:border-stone-600",
-                    { "bg-custom-holiday text-gray-100": d.isFree, "bg-gray-300  dark:bg-stone-500": d.isToday },
-                  ]}
-                >
-                  {#if shiftCounts[s.id] && shiftCounts[s.id][d.idx]}
-                    <span class="font-bold">
-                      {shiftCounts[s.id][d.idx]}
-                    </span>
+                      <button
+                        use:addSelectable
+                        class="flex flex-col items-center justify-center size-8 text-stone-900"
+                        data-employee={employee.id}
+                        data-day={d.idx}
+                      >
+                        {#if fullSchedule[employee.id][d.idx]?.label}
+                          {fullSchedule[employee.id][d.idx].label}
+                        {:else if fullSchedule[employee.id][d.idx]?.start && fullSchedule[employee.id][d.idx]?.end}
+                          {fullSchedule[employee.id][d.idx].start}
+                          <br />
+                          {fullSchedule[employee.id][d.idx].end}
+                        {/if}
+                      </button>
+                    </td>
                   {:else}
-                    0
+                    <td
+                      use:addSelectable
+                      class={[
+                        "hover:bg-opacity-50 transition-colors border-1 dark:border-stone-600",
+                        { "bg-gray-300 dark:bg-stone-500 ": d.isToday, "bg-custom-holiday": d.isFree },
+                      ]}
+                      data-employee={employee.id}
+                      data-day={d.idx}
+                    >
+                      <button
+                        use:addSelectable
+                        class="flex flex-col items-center justify-center size-8"
+                        data-employee={employee.id}
+                        data-day={d.idx}
+                        aria-label="Add schedule"
+                      >
+                      </button>
+                    </td>
+                  {/if}
+                {/each}
+                <td class={["border-1 text-xs text-center dark:border-stone-600", { "font-bold": totalHours[employee.id] > 0 }]}>
+                  {totalHours[employee.id] ?? 0}
+                </td>
+              </tr>
+            {/if}
+          {/each}
+        {/each}
+        {#if shifts && Object.keys(shiftCounts).length}
+          <TableHeaders {holidays} {year} {month} footer={true} />
+          {#each shifts as s (s.id)}
+            {#if shiftCounts[s.id]}
+              <tr>
+                <td class="px-4 h-fit min-w-64 border-1 dark:border-stone-600">
+                  {#if s.label}
+                    {s.label}
+                  {:else}
+                    <span>{s.shiftType}</span>
+                    <span>
+                      {fmtShift(s.start)} - {fmtShift(s.end)}
+                    </span>
                   {/if}
                 </td>
-              {/each}
-            </tr>
-          {/if}
-        {/each}
-      {/if}
-    </tbody>
-  </table>
+                {#each days as d}
+                  <td
+                    class={[
+                      "h-fit text-center border-1 dark:border-stone-600",
+                      { "bg-custom-holiday text-gray-100": d.isFree, "bg-gray-300  dark:bg-stone-500": d.isToday },
+                    ]}
+                  >
+                    {#if shiftCounts[s.id] && shiftCounts[s.id][d.idx]}
+                      <span class="font-bold">
+                        {shiftCounts[s.id][d.idx]}
+                      </span>
+                    {:else}
+                      0
+                    {/if}
+                  </td>
+                {/each}
+              </tr>
+            {/if}
+          {/each}
+        {/if}
+      </tbody>
+    </table>
 
-  {#if shifts}
-    <Dialog id="modify_schedule">
-      <div class="p-4">
-        <div class="flex flex-col gap-8">
-          <form class="flex flex-col gap-4">
-            <Select name="shift_id" required>
-              <option value="-1">{m.none()}</option>
-              {#each shifts as shift}
-                <option value={shift.id}>
-                  {#if shift.label}
-                    {shift.label}
-                  {:else}
-                    {fmtShift(shift.start)} - {fmtShift(shift.end)}
-                  {/if}
-                </option>
-              {/each}
-            </Select>
-            <input name="employee_id" hidden />
-            <input name="year" value={year} hidden />
-            <input name="month" value={month} hidden />
-            <input name="day" hidden />
+    {#if shifts}
+      <Dialog id="modify_schedule">
+        <div class="p-4">
+          <div class="flex flex-col gap-8">
+            <form class="flex flex-col gap-4">
+              <Select name="shift_id" required>
+                <option value="-1">{m.none()}</option>
+                {#each shifts as shift}
+                  <option value={shift.id}>
+                    {#if shift.label}
+                      {shift.label}
+                    {:else}
+                      {fmtShift(shift.start)} - {fmtShift(shift.end)}
+                    {/if}
+                  </option>
+                {/each}
+              </Select>
+              <input name="employee_id" hidden />
+              <input name="year" value={year} hidden />
+              <input name="month" value={month} hidden />
+              <input name="day" hidden />
 
-            <div class="flex flex-row justify-between gap-4">
-              <Submit
-                type="button"
-                onclick={() => {
-                  const dialog = document.querySelector("dialog#modify_schedule") as HTMLDialogElement;
+              <div class="flex flex-row justify-between gap-4">
+                <Submit
+                  type="button"
+                  onclick={() => {
+                    const dialog = document.querySelector("dialog#modify_schedule") as HTMLDialogElement;
 
-                  dialog.close();
-                }}
-              >
-                {m.cancel()}
-              </Submit>
-              <Submit class="col-span-2" type="button" onclick={addSchedule} />
-            </div>
-          </form>
+                    dialog.close();
+                  }}
+                >
+                  {m.cancel()}
+                </Submit>
+                <Submit class="col-span-2" type="button" onclick={addSchedule} />
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </Dialog>
-  {/if}
+      </Dialog>
+    {/if}
+  </div>
 {/if}
 
 <style>
