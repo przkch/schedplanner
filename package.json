@@ -21,7 +21,7 @@
     "@auth/core": "^0.37.4",
     "@auth/drizzle-adapter": "^1.7.4",
     "@iconify-json/mdi": "^1.2.2",
-    "@iconify/svelte": "^4.1.0",
+    "@iconify/svelte": "^4.2.0",
     "@inlang/paraglide-astro": "^0.3.0",
     "@przkch/components": "^0.0.2",
     "astro": "^5.1.1",
