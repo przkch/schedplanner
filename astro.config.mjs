@@ -46,18 +46,37 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
+      AUTH_ALLOW_DANGEROUS_EMAIL_ACCOUNT_LINKING: envField.boolean({
+        context: "server",
+        access: "secret",
+        optional: true,
+        default: false,
+      }),
 
       AUTH_AUTHENTIK_CLIENT_ID: envField.string({
         context: "server",
         access: "secret",
+        optional: true,
       }),
       AUTH_AUTHENTIK_CLIENT_SECRET: envField.string({
         context: "server",
         access: "secret",
+        optional: true,
       }),
       AUTH_AUTHENTIK_ISSUER: envField.string({
         context: "server",
         access: "secret",
+        optional: true,
+      }),
+      AUTH_GITHUB_CLIENT_ID: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      AUTH_GITHUB_CLIENT_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
       }),
     },
   },
