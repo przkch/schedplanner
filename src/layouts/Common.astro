@@ -18,6 +18,7 @@ const session = Astro.locals.session;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <script src="https://rybbit.przekichane.pl/api/script.js" data-site-id="4" defer></script>
   </head>
   <body class="text-stone-900 bg-stone-100 dark:text-stone-100 dark:bg-stone-800">
     <Navbar client:load="svelte" session={session} />
