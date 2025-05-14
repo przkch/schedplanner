@@ -21,7 +21,7 @@
     "@auth/drizzle-adapter": "^1.7.4",
     "@iconify-json/mdi": "^1.2.2",
     "@iconify/svelte": "^4.1.0",
-    "@inlang/paraglide-astro": "^0.3.0",
+    "@inlang/paraglide-astro": "^0.4.1",
     "@tailwindcss/vite": "^4.1.6",
     "astro": "^5.7.13",
     "astro-icon": "^1.1.5",
@@ -33,7 +33,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "^1.11.3",
+    "@inlang/paraglide-js": "^2.0.12",
     "@types/node": "^22.10.3",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "drizzle-kit": "^0.30.1"
