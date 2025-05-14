@@ -1,5 +1,5 @@
 ---
-import Subpage from "@layouts/Subpage.astro";
+import Layout from "@layouts/Layout.astro";
 import { Table, Row, Cell } from "@components/table";
 import { db } from "@lib/database";
 import { employee, team } from "@lib/database/schema";
@@ -23,7 +23,7 @@ const teams = await db
   .orderBy(team.name);
 ---
 
-<Subpage title="Teams">
+<Layout title="Teams" subpage>
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-4">
       <h3 class="font-bold text-3xl">{m.teams()}</h3>
@@ -65,4 +65,4 @@ const teams = await db
       }
     </div>
   </div>
-</Subpage>
+</Layout>

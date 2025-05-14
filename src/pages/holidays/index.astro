@@ -1,11 +1,11 @@
 ---
-import Subpage from "@layouts/Subpage.astro";
+import Layout from "@layouts/Layout.astro";
 import Table from "@components/holidays/Table.svelte";
 
 import * as m from "@paraglide/messages";
 ---
 
-<Subpage title="Holidays">
+<Layout title="Holidays" subpage>
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-4">
       <h3 class="font-bold text-3xl">{m.holidays()}</h3>
@@ -13,4 +13,4 @@ import * as m from "@paraglide/messages";
       <Table client:load="svelte" />
     </div>
   </div>
-</Subpage>
+</Layout>

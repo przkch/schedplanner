@@ -1,5 +1,5 @@
 ---
-import Subpage from "@layouts/Subpage.astro";
+import Layout from "@layouts/Layout.astro";
 
 import Employees from "@components/teams/Employees.svelte";
 import Groups from "@components/teams/Groups.svelte";
@@ -19,10 +19,10 @@ const _team = (
 )[0];
 ---
 
-<Subpage title=`Team ${_team.name}`>
+<Layout title=`Team ${_team.name}` subpage>
   <div class="flex flex-col gap-8">
     <Groups teamId={id} client:load="svelte" />
 
     <Employees teamId={id} client:load="svelte" />
   </div>
-</Subpage>
+</Layout>
