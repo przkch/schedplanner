@@ -10,8 +10,7 @@
     "astro": "astro",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "npx tsx ./src/lib/database/migrate.ts",
-    "db:push": "drizzle-kit push",
-    "postinstall": "paraglide-js compile --project ./schedplanner.inlang --outdir ./src/paraglide"
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
