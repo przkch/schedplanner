@@ -30,7 +30,7 @@
     "postgres": "^3.4.5",
     "svelte": "^5.29.0",
     "tailwindcss": "^4.1.6",
-    "typescript": "^5.7.2"
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@inlang/paraglide-js": "^1.11.3",
