@@ -1,7 +1,7 @@
 import { defineConfig, envField } from "astro/config";
 
 import node from "@astrojs/node";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import paraglide from "@inlang/paraglide-astro";
 import basicSsl from "@vitejs/plugin-basic-ssl";
 
@@ -13,7 +13,7 @@ import auth from "auth-astro";
 
 export default defineConfig({
   output: "server",
-  integrations: [tailwind(), paraglide({ project: "./schedplanner.inlang", outdir: "./src/paraglide" }), icon(), svelte(), auth()],
+  integrations: [paraglide({ project: "./schedplanner.inlang", outdir: "./src/paraglide" }), icon(), svelte(), auth()],
 
   adapter: node({
     mode: "standalone",
@@ -25,7 +25,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [basicSsl()],
+    plugins: [basicSsl(), tailwindcss()],
     server: {
       https: process.env.DEV,
     },

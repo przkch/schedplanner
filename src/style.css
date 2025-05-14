@@ -1,3 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-custom-holiday: var(--color-green-500);
+}
+
 :not(button) > a,
 :not(button) > a:visited {
   border-bottom: 1px solid theme("colors.gray.500");
@@ -5,6 +11,7 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+
 :not(button) > a:active,
 :not(button) > a:hover {
   border-bottom: 1px solid transparent;

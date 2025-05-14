@@ -28,7 +28,7 @@
 
 <style>
   dialog::backdrop {
-    background-color: theme("colors.stone.900" / 75%);
+    background-color: var("--color-stone-900/75");
     backdrop-filter: blur(4px);
   }
 </style>

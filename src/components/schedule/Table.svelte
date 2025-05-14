@@ -425,6 +425,6 @@
 
 <style>
   :global(.intersected) {
-    background-color: theme("colors.stone.500") !important;
+    background-color: var("--color-stone-500") !important;
   }
 </style>
