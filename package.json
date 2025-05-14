@@ -26,7 +26,7 @@
     "astro": "^5.7.13",
     "astro-icon": "^1.1.5",
     "auth-astro": "^4.2.0",
-    "drizzle-orm": "^0.38.3",
+    "drizzle-orm": "^0.43.1",
     "postgres": "^3.4.5",
     "svelte": "^5.29.0",
     "tailwindcss": "^4.1.6",
@@ -36,6 +36,6 @@
     "@inlang/paraglide-js": "^2.0.12",
     "@types/node": "^22.15.18",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
-    "drizzle-kit": "^0.30.1"
+    "drizzle-kit": "^0.31.1"
   }
 }
