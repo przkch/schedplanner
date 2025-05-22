@@ -21,14 +21,14 @@
     "@iconify-json/mdi": "^1.2.3",
     "@iconify/svelte": "^5.0.0",
     "@inlang/paraglide-astro": "^0.4.1",
-    "@tailwindcss/vite": "^4.1.6",
+    "@tailwindcss/vite": "^4.1.7",
     "astro": "^5.8.0",
     "astro-icon": "^1.1.5",
     "auth-astro": "^4.2.0",
     "drizzle-orm": "^0.43.1",
     "postgres": "^3.4.5",
     "svelte": "^5.33.0",
-    "tailwindcss": "^4.1.6",
+    "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
