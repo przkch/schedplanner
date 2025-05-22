@@ -1,7 +1,7 @@
 <script lang="ts">
-  import TeamPicker from "@components/TeamPicker.svelte";
-  import UserIcon from "@components/UserIcon.svelte";
-  import Dialog from "@components/misc/Dialog.svelte";
+  import TeamPicker from "@components/layout/TeamPicker.svelte";
+  import UserIcon from "@components/ui/UserIcon.svelte";
+  import Dialog from "@components/ui/Dialog.svelte";
 
   import type { Session } from "@auth/core/types";
   import * as m from "@paraglide/messages";

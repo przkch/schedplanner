@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Select, Submit } from "@components/form";
-  import Dialog from "@components/misc/Dialog.svelte";
-  import TableHeaders from "@components/schedule/TableHeaders.svelte";
+  import { Select, Submit } from "@components/ui/form";
+  import Dialog from "@components/ui/Dialog.svelte";
+  import TableHeaders from "@components/pages/schedule/TableHeaders.svelte";
   import { group, holiday, shift } from "@lib/database/schema";
   import type { EmployeesSchedule, employeeV } from "@lib/database/schema";
   import type { scheduleModifiedEvent } from "@lib/events/schedule";

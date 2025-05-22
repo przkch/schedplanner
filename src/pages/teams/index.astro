@@ -1,11 +1,11 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import { Table, Row, Cell } from "@components/table";
+import { Table, Row, Cell } from "@components/ui/table";
 import { db } from "@lib/database";
 import { employee, team } from "@lib/database/schema";
 
-import Remove from "@components/buttons/Remove.svelte";
-import { Input, Submit } from "@components/form";
+import Remove from "@components/ui/buttons/Remove.svelte";
+import { Input, Submit } from "@components/ui/form";
 
 import { count, eq } from "drizzle-orm";
 import * as m from "@paraglide/messages";

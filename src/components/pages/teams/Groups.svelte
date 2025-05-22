@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Input, Submit } from "@components/form";
-  import { Table, Row, Cell } from "@components/table";
-  import Remove from "@components/buttons/Remove.svelte";
+  import { Input, Submit } from "@components/ui/form";
+  import { Table, Row, Cell } from "@components/ui/table";
+  import Remove from "@components/ui/buttons/Remove.svelte";
   import { group, team } from "@lib/database/schema";
 
   import * as m from "@paraglide/messages";

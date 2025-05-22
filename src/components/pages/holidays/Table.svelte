@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Remove from "@components/buttons/Remove.svelte";
-  import { Input, Submit } from "@components/form";
-  import { Table, Row, Cell } from "@components/table";
+  import Remove from "@components/ui/buttons/Remove.svelte";
+  import { Input, Submit } from "@components/ui/form";
+  import { Table, Row, Cell } from "@components/ui/table";
   import { holiday } from "@lib/database/schema";
 
   import Icon from "@iconify/svelte";
