@@ -31,7 +31,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "^2.0.12",
+    "@inlang/paraglide-js": "^2.0.13",
     "@types/node": "^22.15.21",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "drizzle-kit": "^0.31.1"
