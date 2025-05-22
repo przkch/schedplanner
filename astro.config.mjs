@@ -13,7 +13,16 @@ import auth from "auth-astro";
 
 export default defineConfig({
   output: "server",
-  integrations: [paraglide({ project: "./schedplanner.inlang", outdir: "./src/paraglide" }), icon(), svelte(), auth()],
+  integrations: [
+    paraglide({
+      project: "./schedplanner.inlang",
+      outdir: "./src/paraglide",
+      settings: { telemetry: "off" },
+    }),
+    icon(),
+    svelte(),
+    auth(),
+  ],
 
   adapter: node({
     mode: "standalone",
