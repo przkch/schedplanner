@@ -22,7 +22,11 @@
   };
 </script>
 
-<dialog use:handleBackdropClick class={[`text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900 rounded-xl`, className]} {...rest}>
+<dialog
+  use:handleBackdropClick
+  class={["fixed m-auto p-4 rounded-xl", "text-stone-900 dark:text-stone-100 bg-stone-100 dark:bg-stone-900", className]}
+  {...rest}
+>
   {@render children?.()}
 </dialog>
 
