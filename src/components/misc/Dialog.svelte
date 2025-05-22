@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Action } from "svelte/action";
-  import type { HTMLAttributes } from "svelte/elements";
+  import type { HTMLDialogAttributes } from "svelte/elements";
 
-  const { children, class: className, ...rest }: HTMLAttributes<HTMLDialogElement> = $props();
+  const { children, class: className, ...rest }: HTMLDialogAttributes = $props();
 
   const handleBackdropClick: Action<HTMLDialogElement> = (node: HTMLDialogElement) => {
     $effect(() => {
