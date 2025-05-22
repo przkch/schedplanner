@@ -1,5 +1,5 @@
 import { db } from "@lib/database";
-import { accounts, users, sessions, verificationTokens } from "@lib/database/schema/auth";
+import { authAccountT, authUserT, authSessionT, authVerificationTokenT } from "@lib/database/schema/auth";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import type { Provider } from "@auth/core/providers";
@@ -27,10 +27,10 @@ if ([AUTH_GITHUB_CLIENT_ID, AUTH_GITHUB_CLIENT_SECRET].every((v) => v)) {
 
 export default defineConfig({
   adapter: DrizzleAdapter(db, {
-    usersTable: users,
-    accountsTable: accounts,
-    sessionsTable: sessions,
-    verificationTokensTable: verificationTokens,
+    usersTable: authUserT,
+    accountsTable: authAccountT,
+    sessionsTable: authSessionT,
+    verificationTokensTable: authVerificationTokenT,
   }),
   providers: providers,
   secret: AUTH_SECRET,
