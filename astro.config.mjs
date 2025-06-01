@@ -61,17 +61,6 @@ export default defineConfig({
         optional: true,
         default: false,
       }),
-
-      AUTH_GITHUB_CLIENT_ID: envField.string({
-        context: "server",
-        access: "secret",
-        optional: true,
-      }),
-      AUTH_GITHUB_CLIENT_SECRET: envField.string({
-        context: "server",
-        access: "secret",
-        optional: true,
-      }),
     },
   },
 });
