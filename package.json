@@ -26,7 +26,7 @@
     "auth-astro": "^4.2.0",
     "drizzle-orm": "^0.43.1",
     "postgres": "^3.4.7",
-    "svelte": "^5.33.0",
+    "svelte": "^5.33.18",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3"
   },
